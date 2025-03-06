@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerData : MonoBehaviour
 {
     private float playTime = 0f;
     private float timeUntilNextSave = 0f;

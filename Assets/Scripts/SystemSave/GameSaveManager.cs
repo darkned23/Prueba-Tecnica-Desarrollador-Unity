@@ -13,6 +13,7 @@ public class GameSaveManager : MonoBehaviour
     public GameData currentGameData; // Datos de la partida actual(Esta variable solo es una comprobacion de que todo está funcionando correctamente, se borrará luego)
     private int currentSlot;
     private bool isNewSlot;
+    public int CurrentSlot { get => currentSlot; set => currentSlot = value; }
     public bool IsNewSlot { get => isNewSlot; set => isNewSlot = value; }
     public float SaveDelay { get => saveDelay; }
 
@@ -36,7 +37,7 @@ public class GameSaveManager : MonoBehaviour
         currentGameData = initialGameData;
         Debug.Log("Partida creada.");
     }
-    public void SaveGameData(Player player)
+    public void SaveGameData(PlayerData player)
     {
         GameData gameData = new("Edward", player.GetPlayerPosition(), player.GetPlayerRotation(), player.PlayTime, "");
         GameSave.SaveGame(gameData, currentSlot);
@@ -57,20 +58,17 @@ public class GameSaveManager : MonoBehaviour
         return gameData;
     }
 
-    public void DeleteGameData(int idSlot)
+    public void DeleteGameData()
     {
-        GameSave.DeleteGame(idSlot);
-        OnGameDataDeleted?.Invoke(idSlot); // Notificar suscriptores
+        GameSave.DeleteGame(currentSlot);
+        OnGameDataDeleted?.Invoke(currentSlot); // Notificar suscriptores
     }
 
-    public void SelectSlot(int idSlot)
+    public void InitialGame()
     {
-        currentSlot = idSlot;
-        Debug.Log("Slot seleccionado: " + idSlot);
-
-        if (GameSave.LoadGame(idSlot) == null)
+        if (GameSave.LoadGame(currentSlot) == null)
         {
-            CreateGameData(idSlot);
+            CreateGameData(currentSlot);
             isNewSlot = true;
         }
         else

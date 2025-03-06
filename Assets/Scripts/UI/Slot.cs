@@ -9,9 +9,16 @@ public class Slot : MonoBehaviour
     [SerializeField] private TMP_Text numberText;
     [SerializeField] private TMP_Text progressText;
 
+    public int IdSlot { get => idSlot; }
+
     void Start()
     {
         AssignData();
+    }
+
+    public void ChangeCurrentSlot()
+    {
+        GameSaveManager.Instance.CurrentSlot = idSlot;
     }
 
     private void AssignData()
@@ -73,4 +80,5 @@ public class Slot : MonoBehaviour
         }
         return $"{minutes}M";
     }
+
 }
