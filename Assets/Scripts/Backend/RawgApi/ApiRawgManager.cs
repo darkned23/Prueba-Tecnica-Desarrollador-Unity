@@ -33,9 +33,9 @@ public class ApiRawgManager : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        if (SaveManager.LoadGames() != null)
+        if (RawgSave.LoadGames() != null)
         {
-            pagesGames = SaveManager.LoadGames();
+            pagesGames = RawgSave.LoadGames();
 
             if (pagesGames.Length == maxPage)
             {
@@ -46,7 +46,7 @@ public class ApiRawgManager : MonoBehaviour
             {
                 GetAllGames();
                 yield return new WaitUntil(() => isReadyAllGames);
-                SaveManager.SaveGames(pagesGames);
+                RawgSave.SaveGames(pagesGames);
                 Debug.Log("Se ha actualizado la lista de juegos.");
             }
         }
@@ -54,7 +54,7 @@ public class ApiRawgManager : MonoBehaviour
         {
             GetAllGames();
             yield return new WaitUntil(() => isReadyAllGames);
-            SaveManager.SaveGames(pagesGames);
+            RawgSave.SaveGames(pagesGames);
             Debug.Log("Todos los juegos han sido guardados.");
         }
     }
@@ -163,10 +163,10 @@ public class ApiRawgManager : MonoBehaviour
         }
 
         // 2. Verificar si la imagen ya está almacenada localmente
-        if (SaveManager.IsImageStored(gameId))
+        if (RawgSave.IsImageStored(gameId))
         {
             Debug.Log("Cargando imagen almacenada localmente.");
-            _gameSelected.backgroundTexture = SaveManager.LoadImage(gameId);
+            _gameSelected.backgroundTexture = RawgSave.LoadImage(gameId);
             yield break;
         }
 
@@ -187,14 +187,14 @@ public class ApiRawgManager : MonoBehaviour
         yield return new WaitUntil(() => _gameSelected.backgroundTexture != null);
 
         // 5. Guardar la imagen descargada
-        SaveManager.SaveImage(gameId, _gameSelected.backgroundTexture);
+        RawgSave.SaveImage(gameId, _gameSelected.backgroundTexture);
     }
 
     // Método para guardar los datos del juego seleccionado.
     private void SaveGameData(int randomPage, int randomIndex)
     {
         pagesGames[randomPage].results[randomIndex].UpdateGame(_gameSelected);
-        SaveManager.SaveGames(pagesGames);
+        RawgSave.SaveGames(pagesGames);
 
         Debug.Log("Se ha actualizado la pagesGames con la descripción");
     }
