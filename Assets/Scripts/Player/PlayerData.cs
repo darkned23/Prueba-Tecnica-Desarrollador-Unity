@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerData : MonoBehaviour
 {
     private float playTime = 0f;
     private float timeUntilNextSave = 0f;
-
+    private List<Game> videoGameData;
     public float PlayTime => playTime;
 
     private void Awake()
@@ -49,6 +50,7 @@ public class PlayerData : MonoBehaviour
         playTime = gameData.playTime;
         transform.position = new Vector3(gameData.playerPosition[0], gameData.playerPosition[1], gameData.playerPosition[2]);
         transform.rotation = Quaternion.Euler(gameData.playerRotation[0], gameData.playerRotation[1], gameData.playerRotation[2]);
+        videoGameData = gameData.videoGamesData;
     }
 
     public float[] GetPlayerPosition()
@@ -71,4 +73,21 @@ public class PlayerData : MonoBehaviour
 
         return rotation;
     }
+
+    #region Getters and Setters
+    public List<Game> GetGames()
+    {
+        return videoGameData;
+    }
+
+    public void AddGame(Game videoGameData)
+    {
+        if (this.videoGameData == null)
+        {
+            this.videoGameData = new List<Game>();
+        }
+        this.videoGameData.Add(videoGameData);
+        SaveGame();
+    }
+    #endregion
 }

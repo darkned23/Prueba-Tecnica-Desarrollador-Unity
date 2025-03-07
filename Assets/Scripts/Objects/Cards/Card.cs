@@ -16,7 +16,10 @@ public class Card : MonoBehaviour
     [SerializeField] private List<string> _platformsTMP;
     [SerializeField] private List<string> _genresTMP;
 
+    private Game videoGameData;
     private Rigidbody _rigidbody;
+
+    public Game VideoGameData => videoGameData;
 
     private void Start()
     {
@@ -37,7 +40,7 @@ public class Card : MonoBehaviour
         }
         else
         {
-            _descriptionTMP.text = "Revisar el codigo, no se ha encontrado una descripción corta.";
+            _descriptionTMP.text = "No se ha encontrado una descripción corta.";
         }
 
         // Asegurarse de que la imagen de fondo no sea nula
@@ -79,6 +82,8 @@ public class Card : MonoBehaviour
                 }
             }
         }
+
+        this.videoGameData = game;
     }
 
     // Método para animar la tarjeta al spawnear

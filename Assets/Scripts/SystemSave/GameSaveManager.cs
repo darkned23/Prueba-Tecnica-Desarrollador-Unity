@@ -4,7 +4,6 @@ using System;
 public class GameSaveManager : MonoBehaviour
 {
     public static GameSaveManager Instance { get; private set; }
-
     public static event Action<int> OnGameDataDeleted; // Evento para notificar eliminación
 
     [SerializeField] private GameData initialGameData; // Datos iniciales de la partida
@@ -39,7 +38,7 @@ public class GameSaveManager : MonoBehaviour
     }
     public void SaveGameData(PlayerData player)
     {
-        GameData gameData = new("Edward", player.GetPlayerPosition(), player.GetPlayerRotation(), player.PlayTime, "");
+        GameData gameData = new("Edward", player.GetPlayerPosition(), player.GetPlayerRotation(), player.PlayTime, player.GetGames());
         GameSave.SaveGame(gameData, currentSlot);
 
         currentGameData = gameData;

@@ -3,40 +3,83 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float jumpForce = 7f;
-    private Rigidbody rb;
+    public float moveSpeed = 5f;
+    public float mouseSensitivity = 2f;
+    public float jumpForce = 5f;
+    public float gravity = 9.81f;
+
+    private CharacterController controller;
+    private Vector3 velocity;
+    private bool isGrounded;
+    private Transform cameraTransform;
+    private float xRotation = 0f;
+
+    private PlayerInputActions inputActions;
     private Vector2 moveInput;
+    private Vector2 lookInput;
+    private bool jumpInput;
 
-    private void Awake()
+    void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        inputActions = new PlayerInputActions();
+
+        inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        inputActions.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        inputActions.Player.Look.canceled += ctx => lookInput = Vector2.zero;
+
+        inputActions.Player.Jump.performed += ctx => jumpInput = true;
     }
 
-    // Método llamado por el sistema de Input para el movimiento
-    private void OnMove(InputValue value)
+    void OnEnable() => inputActions.Enable();
+    void OnDisable() => inputActions.Disable();
+
+    void Start()
     {
-        moveInput = value.Get<Vector2>();
+        controller = GetComponent<CharacterController>();
+        cameraTransform = Camera.main.transform;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    // Método llamado por el sistema de Input para el salto
-    private void OnJump(InputValue value)
+    void Update()
     {
-        if (value.isPressed && IsGrounded())
+        HandleMovement();
+        HandleMouseLook();
+    }
+
+    void HandleMovement()
+    {
+        isGrounded = controller.isGrounded;
+        if (isGrounded && velocity.y < 0)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            velocity.y = -2f;
         }
+
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+        controller.Move(move * moveSpeed * Time.deltaTime);
+
+        if (jumpInput && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpForce * 2f * gravity);
+            jumpInput = false;
+        }
+
+        velocity.y -= gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
-    private void FixedUpdate()
+    void HandleMouseLook()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y);
-        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
-    }
+        float mouseX = lookInput.x * mouseSensitivity;
+        float mouseY = lookInput.y * mouseSensitivity;
 
-    // Verifica si el jugador está en el suelo
-    private bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
     }
 }
