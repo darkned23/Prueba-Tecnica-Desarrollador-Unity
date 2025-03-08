@@ -23,7 +23,7 @@ public class Slot : MonoBehaviour
 
     private void AssignData()
     {
-        if (GameSave.LoadGame(idSlot) != null)
+        if (GameFormatter.LoadGame(idSlot) != null)
         {
             LoadData();
         }
@@ -37,9 +37,9 @@ public class Slot : MonoBehaviour
     {
         buttonDelete.SetActive(true);
 
-        nameText.text = GameSave.LoadGame(idSlot).playerName;
+        nameText.text = GameFormatter.LoadGame(idSlot).PlayerName;
         numberText.text = $"{idSlot + 1}.";
-        progressText.text = FormatPlayTime(GameSave.LoadGame(idSlot).playTime);
+        progressText.text = FormatPlayTime(GameFormatter.LoadGame(idSlot).playTime);
     }
 
     private void ClearData()

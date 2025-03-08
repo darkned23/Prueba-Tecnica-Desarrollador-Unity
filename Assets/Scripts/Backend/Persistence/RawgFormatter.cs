@@ -1,21 +1,21 @@
 using System.IO;
 using UnityEngine;
 
-public static class RawgSave
+public static class RawgFormatter
 {
     private static string gameDataPath = Application.persistentDataPath + "/Files_Rawg/Save_Data/games.json";
     private static string imageFolderPath = Application.persistentDataPath + "/Files_Rawg/Images/";
 
     #region Game Management
     // Guardar juegos en JSON
-    public static void SaveGames(pageGame[] data)
+    public static void SaveGames(_pageGame[] data)
     {
         string json = JsonUtility.ToJson(new JsonPagesGames(data), true);
         File.WriteAllText(gameDataPath, json);
     }
 
     // Cargar juegos desde JSON
-    public static pageGame[] LoadGames()
+    public static _pageGame[] LoadGames()
     {
         if (File.Exists(gameDataPath))
         {

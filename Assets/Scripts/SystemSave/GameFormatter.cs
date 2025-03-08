@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class GameSave
+public static class GameFormatter
 {
     private static string savePath;
     private static BinaryFormatter formatter = new();
@@ -58,9 +58,6 @@ public static class GameSave
         string folderPath = Path.Combine(Application.persistentDataPath, "Files_GameData");
         // Asegura que la carpeta exista
         Directory.CreateDirectory(folderPath);
-
-        // Imprime el directorio donde se descarga
-        Debug.Log("Directorio de guardado: " + folderPath);
 
         return Path.Combine(folderPath, $"SaveSlot_{slot}.sav");
     }

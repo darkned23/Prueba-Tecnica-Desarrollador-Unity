@@ -3,28 +3,31 @@ using System.Collections;
 
 public class ApiRawgManager : MonoBehaviour
 {
-    [SerializeField] private int maxPage = 10;
-    [SerializeField] private pageGame[] pagesGames;
-    [SerializeField] private Game _gameSelected;
-    [SerializeField] private RawgApiClient rawgApiClient;
-    [SerializeField] private RawgParser rawgparser;
+    public static ApiRawgManager Instance { get; private set; }
+
+    [Header("API Configuration")]
+    [SerializeField] private int _maxPage = 10;
+    [SerializeField] private _pageGame[] pagesGames;
+    [SerializeField] private Game _videoGameSelected;
+    [SerializeField] private RawgApiClient _rawgApiClient;
+    [SerializeField] private RawgParser _rawgparser;
 
     private bool isReadyAllGames = false;
     private bool isReadyDataGame = false;
-    public static ApiRawgManager instance;
 
 
     // Métodos Getter para obtener los valores de las propiedades.
-    public Game GetGame() => _gameSelected;
+    public Game GetGame() => _videoGameSelected;
     public bool IsReadyAllGames() => isReadyAllGames;
     public bool IsReadyDataGame() => isReadyDataGame;
-    public int GetMaxPage() => maxPage;
+    public int GetMaxPage() => _maxPage;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -33,20 +36,19 @@ public class ApiRawgManager : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        if (RawgSave.LoadGames() != null)
+        if (RawgFormatter.LoadGames() != null)
         {
-            pagesGames = RawgSave.LoadGames();
+            pagesGames = RawgFormatter.LoadGames();
 
-            if (pagesGames.Length == maxPage)
+            if (pagesGames.Length == _maxPage)
             {
                 isReadyAllGames = true;
-                Debug.Log("Todos los juegos han sido cargados y no se ha realizado ninguna petición.");
             }
             else
             {
                 GetAllGames();
                 yield return new WaitUntil(() => isReadyAllGames);
-                RawgSave.SaveGames(pagesGames);
+                RawgFormatter.SaveGames(pagesGames);
                 Debug.Log("Se ha actualizado la lista de juegos.");
             }
         }
@@ -54,15 +56,14 @@ public class ApiRawgManager : MonoBehaviour
         {
             GetAllGames();
             yield return new WaitUntil(() => isReadyAllGames);
-            RawgSave.SaveGames(pagesGames);
-            Debug.Log("Todos los juegos han sido guardados.");
+            RawgFormatter.SaveGames(pagesGames);
         }
     }
 
     // Método para obtener todos los juegos de la API.
     public void GetAllGames()
     {
-        pagesGames = new pageGame[maxPage];
+        pagesGames = new _pageGame[_maxPage];
         StartCoroutine(GenerateAllGames());
     }
 
@@ -70,27 +71,25 @@ public class ApiRawgManager : MonoBehaviour
     private IEnumerator GenerateAllGames()
     {
         // Corregir el índice: usar de 0 a maxPage - 1
-        for (int i = 0; i < maxPage; i++)
+        for (int i = 0; i < _maxPage; i++)
         {
             // Se solicita la página (asumiendo que la API utiliza 1-based para el parámetro)
-            rawgApiClient.GetResultsResponse(i + 1);
-            yield return new WaitUntil(() => rawgApiClient.GetResponse() != null);
+            _rawgApiClient.GetResultsResponse(i + 1);
+            yield return new WaitUntil(() => _rawgApiClient.GetResponse() != null);
 
             // Parsear y asignar el resultado al array
-            pagesGames[i] = rawgparser.ParseResults(rawgApiClient.GetResponse());
+            pagesGames[i] = _rawgparser.ParseResults(_rawgApiClient.GetResponse());
             yield return new WaitUntil(() => pagesGames[i] != null);
         }
 
         isReadyAllGames = true;
-        Debug.Log("Todos los juegos han sido generados.");
     }
 
     // Método para obtener un juego aleatorio de la pagesGames y su descripción.
     public IEnumerator GenerateDataGame()
     {
-
         // Seleccionar una página aleatoria y un juego aleatorio de esa página
-        int randomPage = Random.Range(0, maxPage);
+        int randomPage = Random.Range(0, _maxPage);
         int randomIndex = Random.Range(0, pagesGames[randomPage].results.Length);
 
         // Seleccionar un juego aleatorio de la página aleatoria
@@ -98,8 +97,6 @@ public class ApiRawgManager : MonoBehaviour
 
         // Obtener la descripción del juego
         yield return ValidateDescription();
-        // Obtener la imagen de fondo del juego
-        yield return ValidateBackgroundTexture(_gameSelected.id);
 
         // Guardar los datos del juego
         SaveGameData(randomPage, randomIndex);
@@ -110,97 +107,96 @@ public class ApiRawgManager : MonoBehaviour
     private void SelectGame(int randomPage, int randomIndex)
     {
         isReadyDataGame = false;
-        _gameSelected = GetRandomGame(pagesGames[randomPage], randomIndex);
-        Debug.Log("Se ha seleccionado un juego de la página " + randomPage + " con id: " + _gameSelected.id);
+        _videoGameSelected = GetRandomGame(pagesGames[randomPage], randomIndex);
+        Debug.Log("Se ha seleccionado un juego de la página " + randomPage + " con id: " + _videoGameSelected.id);
     }
 
     // Método para asegurar que se asigna una descripción al juego seleccionado.
     private IEnumerator ValidateDescription()
     {
         // Si ya tiene una descripción, no hacer la petición
-        if (!string.IsNullOrEmpty(_gameSelected.description_raw))
+        if (!string.IsNullOrEmpty(_videoGameSelected.description_raw))
         {
             Debug.Log("El juego ya tiene una descripción asignada.");
 
             // Si la descripción corta es nula, generarla
-            if (string.IsNullOrEmpty(_gameSelected.description_short))
+            if (string.IsNullOrEmpty(_videoGameSelected.description_short))
             {
-                _gameSelected.description_short = rawgparser.GenerateShortDescription(_gameSelected);
+                _videoGameSelected.description_short = _rawgparser.GenerateShortDescription(_videoGameSelected);
             }
             yield break;
         }
 
         Debug.Log("Obteniendo la descripción desde la API...");
-        rawgApiClient.GetGameResponse(_gameSelected.id);
+        _rawgApiClient.GetGameResponse(_videoGameSelected.id);
 
         // Esperar la respuesta de la API con un timeout de 5 segundos
         float timeout = Time.time + 5f;
-        yield return new WaitUntil(() => rawgApiClient.GetResponse() != null || Time.time > timeout);
+        yield return new WaitUntil(() => _rawgApiClient.GetResponse() != null || Time.time > timeout);
 
         // Verificar si la API respondió a tiempo
-        if (rawgApiClient.GetResponse() != null)
+        if (_rawgApiClient.GetResponse() != null)
         {
-            _gameSelected = rawgparser.ParseGame(rawgApiClient.GetResponse());
-            _gameSelected.description_short = rawgparser.GenerateShortDescription(_gameSelected);
+            _videoGameSelected = _rawgparser.ParseGame(_rawgApiClient.GetResponse());
+            _videoGameSelected.description_short = _rawgparser.GenerateShortDescription(_videoGameSelected);
         }
 
         // Si la descripción sigue siendo null o vacía, asignar una genérica
-        if (string.IsNullOrEmpty(_gameSelected.description_raw))
+        if (string.IsNullOrEmpty(_videoGameSelected.description_raw))
         {
-            _gameSelected.description_short = rawgparser.GenerateGenericDescription(_gameSelected);
+            _videoGameSelected.description_short = _rawgparser.GenerateGenericDescription(_videoGameSelected);
             Debug.LogWarning("Se asignó una descripción genérica.");
         }
     }
 
     // Método para asegurar que se asigna una imagen de fondo al juego seleccionado.
-    private IEnumerator ValidateBackgroundTexture(string gameId)
+    public IEnumerator ValidateBackgroundTexture(Game videoGame)
     {
-        // 1. Si ya tiene una imagen en memoria, salir
-        if (_gameSelected.backgroundTexture != null)
+        // Verificar si ya tiene una imagen asignada en memoria
+        if (videoGame.background_texture != null)
         {
-            Debug.Log("El juego ya tiene una imagen de fondo asignada.");
+            Debug.Log("El juego ya tiene una imagen asignada.");
             yield break;
         }
 
-        // 2. Verificar si la imagen ya está almacenada localmente
-        if (RawgSave.IsImageStored(gameId))
+        // Verificar si la imagen ya está almacenada localmente
+        if (RawgFormatter.IsImageStored(videoGame.id))
         {
             Debug.Log("Cargando imagen almacenada localmente.");
-            _gameSelected.backgroundTexture = RawgSave.LoadImage(gameId);
+            videoGame.background_texture = RawgFormatter.LoadImage(videoGame.id);
             yield break;
         }
 
-        // 3. Si no está almacenada, hacer la petición
-        if (!string.IsNullOrEmpty(_gameSelected.background_image))
+        // Si no está almacenada, hacer la petición
+        if (!string.IsNullOrEmpty(videoGame.background_image))
         {
-            Debug.Log("Seleccionar la background_image si está disponible.");
-            rawgApiClient.GetBackgroundTexture(_gameSelected.background_image, _gameSelected);
+            _rawgApiClient.GetBackgroundTexture(videoGame.background_image, videoGame);
         }
         else
         {
-            Debug.LogWarning("No hay imagen disponible, asignando imagen genérica.");
-            _gameSelected.backgroundTexture = Resources.Load<Texture2D>("Images/Backgrounds/DefaultBackground");
+            Debug.LogWarning("No hay imagen disponible, Asignando imagen genérica.");
+            videoGame.background_texture = Resources.Load<Texture2D>("Images/Backgrounds/DefaultBackground");
             yield break;
         }
 
-        // 4. Esperar hasta que la imagen se asigne y almacenarla
-        yield return new WaitUntil(() => _gameSelected.backgroundTexture != null);
+        // Esperar hasta que la imagen se asigne y almacenarla
+        yield return new WaitUntil(() => videoGame.background_texture != null);
 
-        // 5. Guardar la imagen descargada
-        RawgSave.SaveImage(gameId, _gameSelected.backgroundTexture);
+        // Guardar la imagen descargada
+        RawgFormatter.SaveImage(videoGame.id, videoGame.background_texture);
     }
 
     // Método para guardar los datos del juego seleccionado.
     private void SaveGameData(int randomPage, int randomIndex)
     {
-        pagesGames[randomPage].results[randomIndex].UpdateGame(_gameSelected);
-        RawgSave.SaveGames(pagesGames);
+        pagesGames[randomPage].results[randomIndex].UpdateGame(_videoGameSelected);
+        RawgFormatter.SaveGames(pagesGames);
 
         Debug.Log("Se ha actualizado la pagesGames con la descripción");
     }
 
     // Método para seleccionar un juego aleatorio de la lista y retornar un Game.
-    public Game GetRandomGame(pageGame results, int randomIndex)
+    public Game GetRandomGame(_pageGame results, int randomIndex)
     {
         Game game = results.results[randomIndex];
 

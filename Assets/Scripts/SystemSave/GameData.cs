@@ -4,28 +4,28 @@ using System.Collections.Generic;
 [Serializable] // Permite la serialización
 public class GameData
 {
-    public String playerName;
-    public float[] playerPosition = new float[3];
-    public float[] playerRotation = new float[3];
-    public List<Game> videoGamesData = new List<Game>();
+    public String PlayerName;
+    public float[] PlayerPosition = new float[3];
+    public float[] PlayerRotation = new float[3];
+    public List<Game> videoGamesData = new();
     public float playTime;
     public string lastPlayedDate;
 
     public GameData()
     {
-        playerName = "";
-        playerPosition = new float[3];
+        PlayerName = "";
+        PlayerPosition = new float[3];
         playTime = 0.0f;
         lastPlayedDate = "";
     }
 
     public GameData(string playerName, float[] playerPosition, float[] playerRotation, float playTime, List<Game> videoGamesData)
     {
-        this.playerName = playerName;
-        this.playerPosition = playerPosition;
-        this.playerRotation = playerRotation;
+        this.PlayerName = playerName;
+        this.PlayerPosition = playerPosition;
+        this.PlayerRotation = playerRotation;
         this.playTime = playTime;
-        this.lastPlayedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        lastPlayedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
         this.videoGamesData = videoGamesData;
     }
 

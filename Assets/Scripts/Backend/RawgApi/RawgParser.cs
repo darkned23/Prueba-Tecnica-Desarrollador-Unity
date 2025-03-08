@@ -3,9 +3,9 @@ using UnityEngine;
 public class RawgParser : MonoBehaviour
 {
     // Método para parsear la respuesta y obtener la lista completa de juegos.
-    public pageGame ParseResults(string response)
+    public _pageGame ParseResults(string response)
     {
-        pageGame res = JsonUtility.FromJson<pageGame>(response);
+        _pageGame res = JsonUtility.FromJson<_pageGame>(response);
         if (res.results == null || res.results.Length == 0)
         {
             Debug.LogError("No se encontraron juegos en la respuesta.");
@@ -29,13 +29,13 @@ public class RawgParser : MonoBehaviour
     {
         string genres = (game.genres != null && game.genres.Length > 0)
             ? string.Join(", ", game.genres.Select(g => g.Name))
-            : "varios géneros";
+            : "various genres";
 
         string platforms = (game.platforms != null && game.platforms.Length > 0)
             ? string.Join(", ", game.platforms.Select(p => p.platform.Name))
-            : "plataformas desconocidas";
+            : "unknown platforms";
 
-        return $"Este es un juego de {genres}, disponible en {platforms}.";
+        return $"This is a {genres} game, available on {platforms}.";
     }
 
     // Método para crear una descripción corta

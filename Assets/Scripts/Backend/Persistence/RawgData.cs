@@ -4,12 +4,12 @@ using UnityEngine;
 [Serializable]
 public class JsonPagesGames
 {
-    public pageGame[] pageGames;
-    public JsonPagesGames(pageGame[] games) => pageGames = games;
+    public _pageGame[] pageGames;
+    public JsonPagesGames(_pageGame[] games) => pageGames = games;
 }
 
 [Serializable]
-public class pageGame
+public class _pageGame
 {
     public Game[] results;
 
@@ -23,12 +23,11 @@ public class Game
     public string name;
     public string released;
     public string description_raw;
-    [NonSerialized]
     public string description_short;
     public string background_image;
 
     [NonSerialized]
-    public Texture2D backgroundTexture;
+    public Texture2D background_texture;
     public int metacritic;
     public Platform[] platforms;
     public ApiItem[] genres;
@@ -46,7 +45,7 @@ public class Game
         this.genres = updated.genres;
 
         // Opcional: se puede actualizar backgroundTexture si es requerido
-        this.backgroundTexture = updated.backgroundTexture;
+        this.background_texture = updated.background_texture;
     }
 
     // Metodos Getter y Setter para obtener y modificar los valores de las propiedades
@@ -55,7 +54,7 @@ public class Game
     public string Released => released;
     public string Description { get { return description_raw; } set { description_raw = value; } }
     public string BackgroundImage => background_image;
-    public Texture2D BackgroundTexture => backgroundTexture;
+    public Texture2D BackgroundTexture => background_texture;
 
     public int Metacritic => metacritic;
     public Platform[] Platforms => platforms;

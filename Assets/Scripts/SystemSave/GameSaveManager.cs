@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour
 {
@@ -9,7 +9,6 @@ public class GameSaveManager : MonoBehaviour
     [SerializeField] private GameData initialGameData; // Datos iniciales de la partida
     [SerializeField] private float saveDelay = 60f; // Tiempo en segundos entre guardados automáticos
 
-    public GameData currentGameData; // Datos de la partida actual(Esta variable solo es una comprobacion de que todo está funcionando correctamente, se borrará luego)
     private int currentSlot;
     private bool isNewSlot;
     public int CurrentSlot { get => currentSlot; set => currentSlot = value; }
@@ -31,41 +30,35 @@ public class GameSaveManager : MonoBehaviour
 
     public void CreateGameData(int idSlot)
     {
-        GameSave.SaveGame(initialGameData, idSlot);
-
-        currentGameData = initialGameData;
+        GameFormatter.SaveGame(initialGameData, idSlot);
         Debug.Log("Partida creada.");
     }
-    public void SaveGameData(PlayerData player)
+    public void SaveGameData(PlayerData playerData)
     {
-        GameData gameData = new("Edward", player.GetPlayerPosition(), player.GetPlayerRotation(), player.PlayTime, player.GetGames());
-        GameSave.SaveGame(gameData, currentSlot);
-
-        currentGameData = gameData;
+        GameData gameData = new("Edward", playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetGames());
+        GameFormatter.SaveGame(gameData, currentSlot);
     }
 
     public GameData LoadGameData()
     {
-        GameData gameData = GameSave.LoadGame(currentSlot);
+        GameData gameData = GameFormatter.LoadGame(currentSlot);
         if (gameData == null)
         {
             Debug.LogWarning("No se encontró partida guardada o se produjo un error.");
         }
-
-        currentGameData = gameData;
         Debug.Log("Partida cargada.");
         return gameData;
     }
 
     public void DeleteGameData()
     {
-        GameSave.DeleteGame(currentSlot);
+        GameFormatter.DeleteGame(currentSlot);
         OnGameDataDeleted?.Invoke(currentSlot); // Notificar suscriptores
     }
 
     public void InitialGame()
     {
-        if (GameSave.LoadGame(currentSlot) == null)
+        if (GameFormatter.LoadGame(currentSlot) == null)
         {
             CreateGameData(currentSlot);
             isNewSlot = true;

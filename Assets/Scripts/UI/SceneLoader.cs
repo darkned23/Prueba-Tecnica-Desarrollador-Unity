@@ -27,7 +27,7 @@ public class SceneLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Índice de escena {index} fuera de rango.");
+            Debug.LogError($"Indice de escena {index} fuera de rango.");
         }
     }
 
@@ -39,7 +39,7 @@ public class SceneLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"La escena '{sceneName}' no está en la lista de compilación.");
+            Debug.LogError($"La escena '{sceneName}' no esta en la lista de compilacion.");
         }
     }
 
@@ -81,7 +81,6 @@ public class SceneLoader : MonoBehaviour
         while (!operation.isDone)
         {
             timer = Time.deltaTime;
-            Debug.Log(timer);
             // Agregar barra de carga luego aquí
             yield return null;
         }

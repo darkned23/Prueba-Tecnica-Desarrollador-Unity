@@ -115,7 +115,7 @@ public class PlayerGrab : MonoBehaviour
 
     public void SaveDataGame()
     {
-        playerData.AddGame(grabbedObject.GetComponent<Card>().VideoGameData);
+        playerData.AddVideoGame(grabbedObject.GetComponent<UICard>().VideoGameData);
 
         Destroy(grabbedObject);
         grabbedObject = null;

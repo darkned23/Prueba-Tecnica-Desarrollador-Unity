@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => ApiRawgManager.instance.IsReadyAllGames() == true);
+        yield return new WaitUntil(() => ApiRawgManager.Instance.IsReadyAllGames() == true);
 
         if (prefab == null)
         {
@@ -42,8 +42,8 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            StartCoroutine(ApiRawgManager.instance.GenerateDataGame());
-            yield return new WaitUntil(() => ApiRawgManager.instance.GetGame() != null && ApiRawgManager.instance.IsReadyDataGame() == true);
+            StartCoroutine(ApiRawgManager.Instance.GenerateDataGame());
+            yield return new WaitUntil(() => ApiRawgManager.Instance.GetGame() != null && ApiRawgManager.Instance.IsReadyDataGame() == true);
 
             SpawnPrefab(transform.position);
             yield return new WaitForSeconds(spawnInterval);

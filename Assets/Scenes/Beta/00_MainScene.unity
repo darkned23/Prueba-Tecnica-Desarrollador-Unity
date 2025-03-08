@@ -877,7 +877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 846104459}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &518374067
@@ -2862,30 +2862,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialGameData:
-    playerName: 
-    playerPosition:
-    - 3
-    - 3
-    - 3
-    playerRotation:
+    PlayerName: 
+    PlayerPosition:
     - 0
     - 0
     - 0
+    PlayerRotation:
+    - 0
+    - 0
+    - 0
+    videoGamesData: []
     playTime: 0
     lastPlayedDate: 
   saveDelay: 60
-  currentGameData:
-    playerName: 
-    playerPosition:
-    - 0
-    - 0
-    - 0
-    playerRotation:
-    - 0
-    - 0
-    - 0
-    playTime: 0
-    lastPlayedDate: 
 --- !u!1 &1922858873
 GameObject:
   m_ObjectHideFlags: 0

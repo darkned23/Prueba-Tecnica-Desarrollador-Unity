@@ -120,7 +120,7 @@ public class RawgApiClient : MonoBehaviour
         else
         {
             Texture2D _backgroundTexture = DownloadHandlerTexture.GetContent(request);
-            game.backgroundTexture = _backgroundTexture;
+            game.background_texture = _backgroundTexture;
             Debug.Log("Se ha descargado la imagen de fondo del juego con el id: " + game.id);
         }
     }

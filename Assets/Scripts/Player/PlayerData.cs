@@ -3,12 +3,29 @@ using System.Collections.Generic;
 
 public class PlayerData : MonoBehaviour
 {
+    public static PlayerData Instance { get; private set; }
     private float playTime = 0f;
     private float timeUntilNextSave = 0f;
     private List<Game> videoGameData;
-    public float PlayTime => playTime;
+    private List<Game> _AddedVideoGame = new();
+    private List<Game> _removedVideoGames = new();
+
+    private bool _needsUpdateInventory = true;
 
     private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
     {
         if (GameSaveManager.Instance.IsNewSlot)
         {
@@ -41,6 +58,7 @@ public class PlayerData : MonoBehaviour
     public void SaveGame()
     {
         GameSaveManager.Instance.SaveGameData(this);
+        Debug.Log("Partida guardada.");
     }
 
     public void LoadGame()
@@ -48,11 +66,43 @@ public class PlayerData : MonoBehaviour
         GameData gameData = GameSaveManager.Instance.LoadGameData();
 
         playTime = gameData.playTime;
-        transform.position = new Vector3(gameData.playerPosition[0], gameData.playerPosition[1], gameData.playerPosition[2]);
-        transform.rotation = Quaternion.Euler(gameData.playerRotation[0], gameData.playerRotation[1], gameData.playerRotation[2]);
         videoGameData = gameData.videoGamesData;
+        transform.position = new Vector3(gameData.PlayerPosition[0], gameData.PlayerPosition[1], gameData.PlayerPosition[2]);
+        transform.rotation = Quaternion.Euler(gameData.PlayerRotation[0], gameData.PlayerRotation[1], gameData.PlayerRotation[2]);
     }
 
+    public void AddVideoGame(Game videoGameData)
+    {
+        if (this.videoGameData == null)
+        {
+            this.videoGameData = new List<Game>();
+        }
+        this.videoGameData.Add(videoGameData);
+        Debug.Log("Videojuego añadido a videoGameData.");
+        SaveGame();
+
+        if (_needsUpdateInventory == false)
+        {
+            AddedVideoGames.Add(videoGameData);
+        }
+    }
+
+    public void RemoveVideoGame(Game videoGameData)
+    {
+        if (this.videoGameData == null) return;
+
+        this.videoGameData.Remove(videoGameData);
+        SaveGame();
+
+        RemovedVideoGames.Add(videoGameData);
+    }
+
+    #region Getters and Setters
+    public float PlayTime => playTime;
+    public List<Game> VideoGameData => videoGameData;
+    public List<Game> AddedVideoGames { get => _AddedVideoGame; set => _AddedVideoGame = value; }
+    public List<Game> RemovedVideoGames { get => _removedVideoGames; set => _removedVideoGames = value; }
+    public bool NeedsUpdateInventory { get => _needsUpdateInventory; set => _needsUpdateInventory = value; }
     public float[] GetPlayerPosition()
     {
         float[] position = new float[3];
@@ -74,20 +124,10 @@ public class PlayerData : MonoBehaviour
         return rotation;
     }
 
-    #region Getters and Setters
     public List<Game> GetGames()
     {
         return videoGameData;
     }
-
-    public void AddGame(Game videoGameData)
-    {
-        if (this.videoGameData == null)
-        {
-            this.videoGameData = new List<Game>();
-        }
-        this.videoGameData.Add(videoGameData);
-        SaveGame();
-    }
     #endregion
+
 }
