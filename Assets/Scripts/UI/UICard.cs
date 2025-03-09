@@ -6,8 +6,8 @@ using System.Collections;
 public class UICard : MonoBehaviour
 {
     [Header("UI Components")]
-    [SerializeField] private TextMeshProUGUI _titleTMP;
     [SerializeField] private Image _backgroundImage;
+    [SerializeField] private TextMeshProUGUI _titleTMP;
     [SerializeField] private TextMeshProUGUI _descriptionTMP;
     [SerializeField] private TextMeshProUGUI _releasedTMP;
     [SerializeField] private TextMeshProUGUI _metacriticText;
@@ -29,25 +29,6 @@ public class UICard : MonoBehaviour
         _releasedTMP.text = game.released;
         _metacriticText.text = game.metacritic.ToString();
         StartCoroutine(AssignBackground(game));
-    }
-
-    private IEnumerator AssignBackground(Game game)
-    {
-        yield return ApiRawgManager.Instance.ValidateBackgroundTexture(_videoGameData);
-        if (game.background_texture != null)
-        {
-            _backgroundImage.sprite = Sprite.Create(
-                game.background_texture,
-                new Rect(0, 0, game.background_texture.width, game.background_texture.height),
-                new Vector2(0.5f, 0.5f)
-            );
-            _backgroundImage.preserveAspect = true;
-            _backgroundImage.color = Color.white;
-        }
-        else
-        {
-            _backgroundImage.sprite = null;
-        }
     }
 
     public IEnumerator SetShortCardData(Game game)
@@ -77,4 +58,30 @@ public class UICard : MonoBehaviour
             _backgroundImage.sprite = null;
         }
     }
+
+    private IEnumerator AssignBackground(Game game)
+    {
+        yield return ApiRawgManager.Instance.ValidateBackgroundTexture(_videoGameData);
+        if (game.background_texture != null)
+        {
+            _backgroundImage.sprite = Sprite.Create(
+                game.background_texture,
+                new Rect(0, 0, game.background_texture.width, game.background_texture.height),
+                new Vector2(0.5f, 0.5f)
+            );
+            _backgroundImage.preserveAspect = true;
+            _backgroundImage.color = Color.white;
+        }
+        else
+        {
+            _backgroundImage.sprite = null;
+        }
+    }
+
+    // Metodo para asignar los detalles de la carta que se muestra en la pantalla utilizando un boton
+    public void InitialAssingCardDetails()
+    {
+        StartCoroutine(UICardDetails.Instance.SetAllCardData(_videoGameData));
+    }
+
 }

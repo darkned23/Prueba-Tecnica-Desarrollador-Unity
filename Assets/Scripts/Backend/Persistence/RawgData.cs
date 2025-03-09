@@ -31,8 +31,6 @@ public class Game
     public int metacritic;
     public Platform[] platforms;
     public ApiItem[] genres;
-
-    // Se agrega un método para actualizar las propiedades del juego.
     public void UpdateGame(Game updated)
     {
         // Actualiza las propiedades modificables

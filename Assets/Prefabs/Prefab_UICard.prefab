@@ -345,8 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1c9dd040981c74da65803cc599c6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _titleTMP: {fileID: 346603288620122216}
   _backgroundImage: {fileID: 8559328545072058139}
+  _titleTMP: {fileID: 346603288620122216}
   _descriptionTMP: {fileID: 0}
   _releasedTMP: {fileID: 0}
   _metacriticText: {fileID: 9024641203004738784}
@@ -470,7 +470,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4812280738352162586}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6275057526870097795}
+        m_TargetAssemblyTypeName: UICard, Assembly-CSharp
+        m_MethodName: InitialAssingCardDetails
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5885341956561723492
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject _pauseMenuUI;
+    [SerializeField] private GameObject _cameraCardDetails;
 
     private PlayerInputActions inputActions;
     private bool isPaused = false;
@@ -19,16 +20,20 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(false); // Asegurar que el menú inicie oculto
+        if (_pauseMenuUI != null && _cameraCardDetails != null)
+        {
+            _pauseMenuUI.SetActive(false);
+            _cameraCardDetails.SetActive(false);
+        }
     }
 
     void TogglePause()
     {
         isPaused = !isPaused;
-
         Time.timeScale = isPaused ? 0f : 1f;
-        pauseMenuUI?.SetActive(isPaused);
+
+        _pauseMenuUI?.SetActive(isPaused);
+        _cameraCardDetails?.SetActive(isPaused);
 
         Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = isPaused;
