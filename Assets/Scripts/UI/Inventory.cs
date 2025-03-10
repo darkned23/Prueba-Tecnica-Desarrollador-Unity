@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Invetory : MonoBehaviour
 {
-    [SerializeField] private GameObject _cardCanvasPrefab;
+    [SerializeField] private GameObject _uICardPrefab;
     [SerializeField] private Transform _cardContainer;
     [SerializeField] private float _delayUpdateInventory = 0.1f;
 
@@ -15,36 +15,21 @@ public class Invetory : MonoBehaviour
     {
         Debug.Log("Inventario iniciado");
 
-        if (PlayerData.Instance != null && PlayerData.Instance.VideoGameData != null)
+        if (PlayerData.Instance != null)
         {
-            AddAllCardsAsync(PlayerData.Instance.VideoGameData);
-            PlayerData.Instance.NeedsUpdateInventory = false;
-        }
-    }
+            PlayerData.Instance.OnVideoGameAdded += HandleVideoGameAdded;
+            PlayerData.Instance.OnVideoGameRemoved += HandleVideoGameRemoved;
 
-    void OnEnable()
-    {
-        Debug.Log("Inventario activado");
-
-        if (PlayerData.Instance.AddedVideoGames.Count > 0)
-        {
-            AddAllCardsAsync(PlayerData.Instance.AddedVideoGames);
-            PlayerData.Instance.AddedVideoGames.Clear();
-            Debug.Log("Añadiendo cartas al inventario");
-        }
-        else if (PlayerData.Instance.RemovedVideoGames.Count > 0)
-        {
-            RemoveAllCards(PlayerData.Instance.RemovedVideoGames);
-            PlayerData.Instance.RemovedVideoGames.Clear();
-            Debug.Log("Eliminando cartas del inventario");
+            if (PlayerData.Instance.VideoGameData != null)
+            {
+                AddAllCardsAsync(PlayerData.Instance.VideoGameData);
+            }
         }
     }
 
     private async void AddAllCardsAsync(List<Game> videoGames)
     {
-        Debug.Log("Añadiendo cartas al inventario (modo async/await)");
-        List<Game> gamesCopy = new List<Game>(videoGames);
-        foreach (Game videoGame in gamesCopy)
+        foreach (Game videoGame in videoGames)
         {
             AddCard(videoGame);
             await Task.Delay(TimeSpan.FromSeconds(_delayUpdateInventory));
@@ -53,20 +38,19 @@ public class Invetory : MonoBehaviour
 
     private void AddCard(Game videoGame)
     {
-        GameObject cardCanvas = Instantiate(_cardCanvasPrefab, _cardContainer, false);
+        GameObject cardCanvas = Instantiate(_uICardPrefab, _cardContainer, false);
         UICard canvasCard = cardCanvas.GetComponent<UICard>();
+
+        if (canvasCard == null)
+        {
+            Debug.LogError("El prefab no incluye el componente UICard.");
+            return;
+        }
+
         StartCoroutine(canvasCard.SetShortCardData(videoGame));
         _cardsCanvas.Add(canvasCard);
-        Debug.Log($"Carta añadida al inventario: {videoGame.name}");
-    }
 
-    private async void RemoveAllCards(List<Game> videoGames)
-    {
-        foreach (Game videoGame in videoGames)
-        {
-            RemoveCard(videoGame);
-            await Task.Delay(TimeSpan.FromSeconds(_delayUpdateInventory));
-        }
+        Debug.Log($"Carta añadida al inventario: {videoGame.name}");
     }
 
     private void RemoveCard(Game videoGame)
@@ -81,5 +65,15 @@ public class Invetory : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void HandleVideoGameAdded(Game videoGame)
+    {
+        AddCard(videoGame);
+    }
+
+    private void HandleVideoGameRemoved(Game videoGame)
+    {
+        RemoveCard(videoGame);
     }
 }

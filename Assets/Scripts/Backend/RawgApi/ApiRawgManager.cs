@@ -130,9 +130,9 @@ public class ApiRawgManager : MonoBehaviour
         Debug.Log("Obteniendo la descripción desde la API...");
         _rawgApiClient.GetGameResponse(_videoGameSelected.id);
 
-        // Esperar la respuesta de la API con un timeout de 5 segundos
-        float timeout = Time.time + 5f;
-        yield return new WaitUntil(() => _rawgApiClient.GetResponse() != null || Time.time > timeout);
+        // Esperar la respuesta de la API con un timeout de 5 segundos (usando tiempo en tiempo real)
+        float timeout = Time.realtimeSinceStartup + 5f;
+        yield return new WaitUntil(() => _rawgApiClient.GetResponse() != null || Time.realtimeSinceStartup > timeout);
 
         // Verificar si la API respondió a tiempo
         if (_rawgApiClient.GetResponse() != null)

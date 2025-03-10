@@ -3,22 +3,47 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
+    [Header("Slot Config")]
     [SerializeField] private int _idSlot;
     [SerializeField] private GameObject _buttonDelete;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _numberText;
     [SerializeField] private TMP_Text _progressText;
 
+    [Header("Other Config")]
+    [SerializeField] private GameObject _panelInputName;
+    [SerializeField] private SceneLoader _sceneLoader;
+
     void Start()
     {
         AssignData();
     }
-
     public void AssingSelectSlot()
     {
         GameSaveManager.Instance.SelectedSlot = _idSlot;
     }
 
+    public void SetNameGame(TMP_Text name)
+    {
+        GameSaveManager.Instance.SelectNameGame = name.text;
+    }
+
+    public void SearchSlot()
+    {
+        AssingSelectSlot();
+
+        if (GameFormatter.LoadGame(_idSlot) != null)
+        {
+            GameSaveManager.Instance.SelectNameGame = GameFormatter.LoadGame(_idSlot).NameGame;
+            GameSaveManager.Instance.LoadGameData();
+            _sceneLoader.LoadNextScene();
+        }
+        else
+        {
+            GameSaveManager.Instance.IsNewSlot = true;
+            _panelInputName.SetActive(true);
+        }
+    }
 
     private void AssignData()
     {
@@ -32,6 +57,10 @@ public class Slot : MonoBehaviour
         }
     }
 
+    public void DeleteData()
+    {
+        GameSaveManager.Instance.DeleteGameData();
+    }
     private void LoadData()
     {
         _buttonDelete.SetActive(true);

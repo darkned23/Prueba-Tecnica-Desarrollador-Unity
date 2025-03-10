@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerGrab : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerGrab : MonoBehaviour
     private PlayerInputActions inputActions;
     private bool grabInput;
     private bool saveInput;
+    private bool isSaving; // Se agrega flag para evitar múltiples guardados
 
     void Awake()
     {
@@ -41,6 +43,8 @@ public class PlayerGrab : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
+
         if (grabInput)
         {
             if (grabbedObject == null)
@@ -56,7 +60,6 @@ public class PlayerGrab : MonoBehaviour
             {
                 SaveDataGame();
             }
-
             saveInput = false;
         }
     }
@@ -113,13 +116,26 @@ public class PlayerGrab : MonoBehaviour
     }
 #endif
 
-    public void SaveDataGame()
+    private void SaveDataGame()
     {
-        playerData.AddVideoGame(grabbedObject.GetComponent<UICard>().VideoGameData);
+        if (isSaving) return;
+        isSaving = true;
+
+        Game videoGameData = grabbedObject.GetComponent<UICard>().VideoGameData;
+        playerData.AddVideoGame(videoGameData);
+
+        StartCoroutine(WaitForDestroy(videoGameData));
+    }
+
+    private IEnumerator WaitForDestroy(Game videoGameData)
+    {
+        grabbedObject.transform.localScale = Vector3.zero;
+        yield return new WaitForSeconds(1f);
 
         Destroy(grabbedObject);
         grabbedObject = null;
         grabbedCollider = null;
         originalScale = Vector3.zero;
+        isSaving = false; // Reinicia el flag
     }
 }

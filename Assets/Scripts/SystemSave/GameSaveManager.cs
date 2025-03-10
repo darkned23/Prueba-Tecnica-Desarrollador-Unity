@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour
@@ -7,12 +6,14 @@ public class GameSaveManager : MonoBehaviour
     public static GameSaveManager Instance { get; private set; }
     public static event Action<int> OnGameDataDeleted;
 
-    [SerializeField] private GameData _initialGameData;
+    [SerializeField] private GameData _initialGameData = new();
     [SerializeField] private float saveDelay = 60f;
 
     private int _selectSlot;
+    private string _selectNameGame;
     private bool _isNewSlot;
     public int SelectedSlot { get => _selectSlot; set => _selectSlot = value; }
+    public string SelectNameGame { get => _selectNameGame; set => _selectNameGame = value; }
     public bool IsNewSlot { get => _isNewSlot; set => _isNewSlot = value; }
     public float SaveDelay { get => saveDelay; }
 
@@ -29,15 +30,20 @@ public class GameSaveManager : MonoBehaviour
         }
     }
 
-    public void CreateGameData(int idSlot)
+    public void CreateGameData()
     {
-        GameFormatter.SaveGame(_initialGameData, idSlot);
+        _initialGameData.NameGame = _selectNameGame;
+
+        GameFormatter.SaveGame(_initialGameData, _selectSlot);
         _isNewSlot = true;
         Debug.Log("Partida creada.");
     }
+
     public void SaveGameData(PlayerData playerData)
     {
-        GameData gameData = new(_initialGameData.NameGame, playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetGames());
+        _initialGameData.NameGame = _selectNameGame;
+
+        GameData gameData = new(_initialGameData.NameGame, playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetVideoGamesData());
         GameFormatter.SaveGame(gameData, _selectSlot);
     }
 
@@ -56,22 +62,5 @@ public class GameSaveManager : MonoBehaviour
     {
         GameFormatter.DeleteGame(_selectSlot);
         OnGameDataDeleted?.Invoke(_selectSlot); // Notificar suscriptores
-    }
-
-    public void InitialGame()
-    {
-        if (GameFormatter.LoadGame(_selectSlot) == null)
-        {
-            CreateGameData(_selectSlot);
-        }
-        else
-        {
-            LoadGameData();
-        }
-    }
-
-    public void SetNameGame(TMP_Text name)
-    {
-        _initialGameData.NameGame = name.text;
     }
 }

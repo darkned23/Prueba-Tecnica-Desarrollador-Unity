@@ -17,56 +17,45 @@ public class UICard : MonoBehaviour
     public int CardId => _cardId;
     public Game VideoGameData => _videoGameData;
 
-    public IEnumerator SetAllCardData(Game game)
+    public IEnumerator SetAllCardData(Game videoGame)
     {
-        if (game == null) yield break;
+        if (videoGame == null) yield break;
 
-        _cardId = int.Parse(game.id);
+        _cardId = int.Parse(videoGame.id);
 
-        _videoGameData = game;
-        _titleTMP.text = game.name;
-        _descriptionTMP.text = !string.IsNullOrEmpty(game.description_short) ? game.description_short : "No description available.";
-        _releasedTMP.text = game.released;
-        _metacriticText.text = game.metacritic.ToString();
-        StartCoroutine(AssignBackground(game));
+        _videoGameData = videoGame;
+        _titleTMP.text = videoGame.name;
+        _descriptionTMP.text = !string.IsNullOrEmpty(videoGame.description_short) ? videoGame.description_short : "No description available.";
+        _releasedTMP.text = videoGame.released;
+        _metacriticText.text = videoGame.metacritic.ToString();
+        yield return StartCoroutine(AssignBackground(videoGame));
     }
 
-    public IEnumerator SetShortCardData(Game game)
+    public IEnumerator SetShortCardData(Game videoGame)
     {
-        if (game == null) yield break;
-
-        _cardId = int.Parse(game.id);
-        _videoGameData = game;
-
-        _titleTMP.text = game.name;
-        _metacriticText.text = game.metacritic.ToString();
-
-        // Obtener la imagen de fondo del juego
-        yield return ApiRawgManager.Instance.ValidateBackgroundTexture(_videoGameData);
-        if (game.background_texture != null)
+        if (videoGame == null)
         {
-            _backgroundImage.sprite = Sprite.Create(
-                game.background_texture,
-                new Rect(0, 0, game.background_texture.width, game.background_texture.height),
-                new Vector2(0.5f, 0.5f)
-            );
-            _backgroundImage.preserveAspect = true;
-            _backgroundImage.color = Color.white;
+            Debug.Log("Se ha limpiado el videogame data");
+            Debug.LogError("Revisar porque se esta elimiando el videogame");
+            yield break;
         }
-        else
-        {
-            _backgroundImage.sprite = null;
-        }
+
+        _cardId = int.Parse(videoGame.id);
+        _videoGameData = videoGame;
+
+        _titleTMP.text = videoGame.name;
+        _metacriticText.text = videoGame.metacritic.ToString();
+        StartCoroutine(AssignBackground(videoGame));
     }
 
-    private IEnumerator AssignBackground(Game game)
+    private IEnumerator AssignBackground(Game videoGame)
     {
         yield return ApiRawgManager.Instance.ValidateBackgroundTexture(_videoGameData);
-        if (game.background_texture != null)
+        if (videoGame.background_texture != null)
         {
             _backgroundImage.sprite = Sprite.Create(
-                game.background_texture,
-                new Rect(0, 0, game.background_texture.width, game.background_texture.height),
+                videoGame.background_texture,
+                new Rect(0, 0, videoGame.background_texture.width, videoGame.background_texture.height),
                 new Vector2(0.5f, 0.5f)
             );
             _backgroundImage.preserveAspect = true;

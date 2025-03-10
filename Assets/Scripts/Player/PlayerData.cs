@@ -1,16 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance { get; private set; }
     private float playTime = 0f;
     private float timeUntilNextSave = 0f;
-    private List<Game> videoGameData;
-    private List<Game> _AddedVideoGame = new();
-    private List<Game> _removedVideoGames = new();
+    private List<Game> videoGamesData;
 
-    private bool _needsUpdateInventory = true;
+    public event Action<Game> OnVideoGameAdded;
+    public event Action<Game> OnVideoGameRemoved;
 
     private void Awake()
     {
@@ -46,7 +46,7 @@ public class PlayerData : MonoBehaviour
 
     private void AutoSaveGame()
     {
-        timeUntilNextSave += Time.deltaTime;
+        timeUntilNextSave += Time.unscaledDeltaTime; // Se usa unscaledDeltaTime para que el autoguardado no se detenga.
         if (timeUntilNextSave >= GameSaveManager.Instance.SaveDelay)
         {
             SaveGame();
@@ -64,45 +64,45 @@ public class PlayerData : MonoBehaviour
     public void LoadGame()
     {
         GameData gameData = GameSaveManager.Instance.LoadGameData();
+        if (gameData == null)
+        {
+            Debug.LogWarning("GameData is null in PlayerData.LoadGame. Loading default values.");
+            return; // Evita errores por referencia nula
+        }
 
         playTime = gameData.playTime;
-        videoGameData = gameData.videoGamesData;
+        videoGamesData = gameData.videoGamesData;
         transform.position = new Vector3(gameData.PlayerPosition[0], gameData.PlayerPosition[1], gameData.PlayerPosition[2]);
         transform.rotation = Quaternion.Euler(gameData.PlayerRotation[0], gameData.PlayerRotation[1], gameData.PlayerRotation[2]);
     }
 
     public void AddVideoGame(Game videoGameData)
     {
-        if (this.videoGameData == null)
+        if (this.videoGamesData == null)
         {
-            this.videoGameData = new List<Game>();
+            this.videoGamesData = new List<Game>();
         }
-        this.videoGameData.Add(videoGameData);
+        this.videoGamesData.Add(videoGameData);
         Debug.Log("Videojuego añadido a videoGameData.");
         SaveGame();
 
-        if (_needsUpdateInventory == false)
-        {
-            AddedVideoGames.Add(videoGameData);
-        }
+        OnVideoGameAdded?.Invoke(videoGameData);
     }
 
     public void RemoveVideoGame(Game videoGameData)
     {
-        if (this.videoGameData == null) return;
+        if (this.videoGamesData == null) return;
 
-        this.videoGameData.Remove(videoGameData);
+        this.videoGamesData.Remove(videoGameData);
         SaveGame();
 
-        RemovedVideoGames.Add(videoGameData);
+        OnVideoGameRemoved?.Invoke(videoGameData);
     }
 
     #region Getters and Setters
     public float PlayTime => playTime;
-    public List<Game> VideoGameData => videoGameData;
-    public List<Game> AddedVideoGames { get => _AddedVideoGame; set => _AddedVideoGame = value; }
-    public List<Game> RemovedVideoGames { get => _removedVideoGames; set => _removedVideoGames = value; }
-    public bool NeedsUpdateInventory { get => _needsUpdateInventory; set => _needsUpdateInventory = value; }
+    public List<Game> VideoGameData => videoGamesData;
+
     public float[] GetPlayerPosition()
     {
         float[] position = new float[3];
@@ -124,9 +124,9 @@ public class PlayerData : MonoBehaviour
         return rotation;
     }
 
-    public List<Game> GetGames()
+    public List<Game> GetVideoGamesData()
     {
-        return videoGameData;
+        return videoGamesData;
     }
     #endregion
 

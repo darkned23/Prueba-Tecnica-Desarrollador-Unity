@@ -1,24 +1,9 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static SceneLoader Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public void LoadSceneByIndex(int index)
     {
         if (index >= 0 && index < SceneManager.sceneCountInBuildSettings)
@@ -80,9 +65,19 @@ public class SceneLoader : MonoBehaviour
         float timer;
         while (!operation.isDone)
         {
-            timer = Time.deltaTime;
+            timer = Time.unscaledDeltaTime;
             // Agregar barra de carga luego aquí
             yield return null;
         }
     }
+
+    public void ExitGame()
+    {
+        Debug.Log("Saliendo del juego");
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
 }

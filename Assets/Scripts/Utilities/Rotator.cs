@@ -16,7 +16,8 @@ public class Rotator : MonoBehaviour
     // Llama a este método para iniciar la rotación
     public void Rotate()
     {
-        Debug.Log("Rotating...");
+        Debug.Log(isRotating);
+
         if (!isRotating)
         {
             StartCoroutine(RotateCoroutine());
@@ -37,7 +38,7 @@ public class Rotator : MonoBehaviour
             // Evalúa la curva para obtener el interpolado
             float t = animationCurve.Evaluate(timer / duration);
             transform.rotation = Quaternion.Slerp(initialRotation, finalRotation, t);
-            yield return null;
+            yield return new WaitForSecondsRealtime(0);
         }
         // Asegura que se asigne la rotación final
         transform.rotation = finalRotation;
