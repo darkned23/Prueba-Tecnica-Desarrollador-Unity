@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable] // Permite la serialización
 public class GameData
 {
-    public String PlayerName;
+    public string NameGame;
     public float[] PlayerPosition = new float[3];
     public float[] PlayerRotation = new float[3];
     public List<Game> videoGamesData = new();
@@ -13,15 +13,15 @@ public class GameData
 
     public GameData()
     {
-        PlayerName = "";
+        NameGame = "";
         PlayerPosition = new float[3];
         playTime = 0.0f;
         lastPlayedDate = "";
     }
 
-    public GameData(string playerName, float[] playerPosition, float[] playerRotation, float playTime, List<Game> videoGamesData)
+    public GameData(string nameGame, float[] playerPosition, float[] playerRotation, float playTime, List<Game> videoGamesData)
     {
-        this.PlayerName = playerName;
+        this.NameGame = nameGame;
         this.PlayerPosition = playerPosition;
         this.PlayerRotation = playerRotation;
         this.playTime = playTime;

@@ -3,27 +3,26 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private int idSlot;
-    [SerializeField] private GameObject buttonDelete;
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text numberText;
-    [SerializeField] private TMP_Text progressText;
-
-    public int IdSlot { get => idSlot; }
+    [SerializeField] private int _idSlot;
+    [SerializeField] private GameObject _buttonDelete;
+    [SerializeField] private TMP_Text _nameText;
+    [SerializeField] private TMP_Text _numberText;
+    [SerializeField] private TMP_Text _progressText;
 
     void Start()
     {
         AssignData();
     }
 
-    public void ChangeCurrentSlot()
+    public void AssingSelectSlot()
     {
-        GameSaveManager.Instance.CurrentSlot = idSlot;
+        GameSaveManager.Instance.SelectedSlot = _idSlot;
     }
+
 
     private void AssignData()
     {
-        if (GameFormatter.LoadGame(idSlot) != null)
+        if (GameFormatter.LoadGame(_idSlot) != null)
         {
             LoadData();
         }
@@ -35,20 +34,20 @@ public class Slot : MonoBehaviour
 
     private void LoadData()
     {
-        buttonDelete.SetActive(true);
+        _buttonDelete.SetActive(true);
 
-        nameText.text = GameFormatter.LoadGame(idSlot).PlayerName;
-        numberText.text = $"{idSlot + 1}.";
-        progressText.text = FormatPlayTime(GameFormatter.LoadGame(idSlot).playTime);
+        _nameText.text = GameFormatter.LoadGame(_idSlot).NameGame;
+        _numberText.text = $"{_idSlot + 1}.";
+        _progressText.text = FormatPlayTime(GameFormatter.LoadGame(_idSlot).playTime);
     }
 
     private void ClearData()
     {
-        buttonDelete.SetActive(false);
+        _buttonDelete.SetActive(false);
 
-        nameText.text = "New Game";
-        numberText.text = $"";
-        progressText.text = "";
+        _nameText.text = "New Game";
+        _numberText.text = $"";
+        _progressText.text = "";
     }
 
     private void OnEnable()
@@ -63,7 +62,7 @@ public class Slot : MonoBehaviour
 
     private void OnGameDataDeleted(int deletedSlot)
     {
-        if (deletedSlot == idSlot)
+        if (deletedSlot == _idSlot)
         {
             ClearData();
         }

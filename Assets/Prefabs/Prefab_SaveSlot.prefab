@@ -895,17 +895,17 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!23 &2191826082791590218
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1145,8 +1145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e55d605968747f4cab33a2bdacd0961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idSlot: 0
-  buttonDelete: {fileID: 7396870425874019097}
-  nameText: {fileID: 3796462979398164293}
-  numberText: {fileID: 6370330952911741959}
-  progressText: {fileID: 3074777917625664500}
+  _idSlot: 0
+  _buttonDelete: {fileID: 7396870425874019097}
+  _inputName: {fileID: 0}
+  _nameText: {fileID: 3796462979398164293}
+  _numberText: {fileID: 6370330952911741959}
+  _progressText: {fileID: 3074777917625664500}

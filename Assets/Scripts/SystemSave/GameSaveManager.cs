@@ -1,18 +1,19 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour
 {
     public static GameSaveManager Instance { get; private set; }
-    public static event Action<int> OnGameDataDeleted; // Evento para notificar eliminación
+    public static event Action<int> OnGameDataDeleted;
 
-    [SerializeField] private GameData initialGameData; // Datos iniciales de la partida
-    [SerializeField] private float saveDelay = 60f; // Tiempo en segundos entre guardados automáticos
+    [SerializeField] private GameData _initialGameData;
+    [SerializeField] private float saveDelay = 60f;
 
-    private int currentSlot;
-    private bool isNewSlot;
-    public int CurrentSlot { get => currentSlot; set => currentSlot = value; }
-    public bool IsNewSlot { get => isNewSlot; set => isNewSlot = value; }
+    private int _selectSlot;
+    private bool _isNewSlot;
+    public int SelectedSlot { get => _selectSlot; set => _selectSlot = value; }
+    public bool IsNewSlot { get => _isNewSlot; set => _isNewSlot = value; }
     public float SaveDelay { get => saveDelay; }
 
     private void Awake()
@@ -30,18 +31,19 @@ public class GameSaveManager : MonoBehaviour
 
     public void CreateGameData(int idSlot)
     {
-        GameFormatter.SaveGame(initialGameData, idSlot);
+        GameFormatter.SaveGame(_initialGameData, idSlot);
+        _isNewSlot = true;
         Debug.Log("Partida creada.");
     }
     public void SaveGameData(PlayerData playerData)
     {
-        GameData gameData = new("Edward", playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetGames());
-        GameFormatter.SaveGame(gameData, currentSlot);
+        GameData gameData = new(_initialGameData.NameGame, playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetGames());
+        GameFormatter.SaveGame(gameData, _selectSlot);
     }
 
     public GameData LoadGameData()
     {
-        GameData gameData = GameFormatter.LoadGame(currentSlot);
+        GameData gameData = GameFormatter.LoadGame(_selectSlot);
         if (gameData == null)
         {
             Debug.LogWarning("No se encontró partida guardada o se produjo un error.");
@@ -52,20 +54,24 @@ public class GameSaveManager : MonoBehaviour
 
     public void DeleteGameData()
     {
-        GameFormatter.DeleteGame(currentSlot);
-        OnGameDataDeleted?.Invoke(currentSlot); // Notificar suscriptores
+        GameFormatter.DeleteGame(_selectSlot);
+        OnGameDataDeleted?.Invoke(_selectSlot); // Notificar suscriptores
     }
 
     public void InitialGame()
     {
-        if (GameFormatter.LoadGame(currentSlot) == null)
+        if (GameFormatter.LoadGame(_selectSlot) == null)
         {
-            CreateGameData(currentSlot);
-            isNewSlot = true;
+            CreateGameData(_selectSlot);
         }
         else
         {
             LoadGameData();
         }
+    }
+
+    public void SetNameGame(TMP_Text name)
+    {
+        _initialGameData.NameGame = name.text;
     }
 }

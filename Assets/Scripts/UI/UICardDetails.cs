@@ -38,7 +38,7 @@ public class UICardDetails : MonoBehaviour
         _titleTMP.text = game.name;
         yield return AssignBackground(game);
         _released.text = game.released;
-        _description.text = game.description_short;
+        _description.text = game.description_raw;
         _metacritic.text = game.metacritic.ToString();
         _platforms.text = string.Join(", ", game.platforms.Select(platform => platform.platform.name).ToArray());
         _genres.text = string.Join(", ", game.genres.Select(genre => genre.name).ToArray());
