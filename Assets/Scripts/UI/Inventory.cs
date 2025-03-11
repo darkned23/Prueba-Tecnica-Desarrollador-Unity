@@ -49,8 +49,6 @@ public class Invetory : MonoBehaviour
 
         StartCoroutine(canvasCard.SetShortCardData(videoGame));
         _cardsCanvas.Add(canvasCard);
-
-        Debug.Log($"Carta añadida al inventario: {videoGame.name}");
     }
 
     private void RemoveCard(Game videoGame)

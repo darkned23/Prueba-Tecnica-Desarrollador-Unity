@@ -49,7 +49,6 @@ public class ApiRawgManager : MonoBehaviour
                 GetAllGames();
                 yield return new WaitUntil(() => isReadyAllGames);
                 RawgFormatter.SaveGames(pagesGames);
-                Debug.Log("Se ha actualizado la lista de juegos.");
             }
         }
         else
@@ -108,7 +107,6 @@ public class ApiRawgManager : MonoBehaviour
     {
         isReadyDataGame = false;
         _videoGameSelected = GetRandomGame(pagesGames[randomPage], randomIndex);
-        Debug.Log("Se ha seleccionado un juego de la página " + randomPage + " con id: " + _videoGameSelected.id);
     }
 
     // Método para asegurar que se asigna una descripción al juego seleccionado.
@@ -117,8 +115,6 @@ public class ApiRawgManager : MonoBehaviour
         // Si ya tiene una descripción, no hacer la petición
         if (!string.IsNullOrEmpty(_videoGameSelected.description_raw))
         {
-            Debug.Log("El juego ya tiene una descripción asignada.");
-
             // Si la descripción corta es nula, generarla
             if (string.IsNullOrEmpty(_videoGameSelected.description_short))
             {
@@ -127,7 +123,6 @@ public class ApiRawgManager : MonoBehaviour
             yield break;
         }
 
-        Debug.Log("Obteniendo la descripción desde la API...");
         _rawgApiClient.GetGameResponse(_videoGameSelected.id);
 
         // Esperar la respuesta de la API con un timeout de 5 segundos (usando tiempo en tiempo real)
@@ -145,7 +140,6 @@ public class ApiRawgManager : MonoBehaviour
         if (string.IsNullOrEmpty(_videoGameSelected.description_raw))
         {
             _videoGameSelected.description_short = _rawgparser.GenerateGenericDescription(_videoGameSelected);
-            Debug.LogWarning("Se asignó una descripción genérica.");
         }
     }
 
@@ -155,14 +149,12 @@ public class ApiRawgManager : MonoBehaviour
         // Verificar si ya tiene una imagen asignada en memoria
         if (videoGame.background_texture != null)
         {
-            Debug.Log("El juego ya tiene una imagen asignada.");
             yield break;
         }
 
         // Verificar si la imagen ya está almacenada localmente
         if (RawgFormatter.IsImageStored(videoGame.id))
         {
-            Debug.Log("Cargando imagen almacenada localmente.");
             videoGame.background_texture = RawgFormatter.LoadImage(videoGame.id);
             yield break;
         }
@@ -191,8 +183,6 @@ public class ApiRawgManager : MonoBehaviour
     {
         pagesGames[randomPage].results[randomIndex].UpdateGame(_videoGameSelected);
         RawgFormatter.SaveGames(pagesGames);
-
-        Debug.Log("Se ha actualizado la pagesGames con la descripción");
     }
 
     // Método para seleccionar un juego aleatorio de la lista y retornar un Game.

@@ -48,7 +48,7 @@ public static class GameFormatter
         }
         else
         {
-            Debug.Log("No hay partida para eliminar.");
+            Debug.LogWarning("No hay partida para eliminar.");
         }
     }
 

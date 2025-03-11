@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: 1af522dd3eae0434b8abbbe3096bc7c3
   - enabled: 1
     path: Assets/Scenes/Beta/01_CardsCollections.unity
-    guid: e186730750684b3498e4b7c106d69987
+    guid: 1fffa723afc646242af26ffd6ef4ff57
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

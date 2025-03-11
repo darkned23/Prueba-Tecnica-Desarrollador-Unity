@@ -1,4 +1,5 @@
 using TMPro;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -8,9 +9,11 @@ public class UICard : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private TextMeshProUGUI _titleTMP;
-    [SerializeField] private TextMeshProUGUI _descriptionTMP;
-    [SerializeField] private TextMeshProUGUI _releasedTMP;
-    [SerializeField] private TextMeshProUGUI _metacriticText;
+    [SerializeField] private TextMeshProUGUI _released;
+    [SerializeField] private TextMeshProUGUI _description;
+    [SerializeField] private TextMeshProUGUI _metacritic;
+    [SerializeField] private TextMeshProUGUI _platforms;
+    [SerializeField] private TextMeshProUGUI _genres;
 
     private int _cardId;
     private Game _videoGameData;
@@ -20,32 +23,25 @@ public class UICard : MonoBehaviour
     public IEnumerator SetAllCardData(Game videoGame)
     {
         if (videoGame == null) yield break;
+        yield return StartCoroutine(SetShortCardData(videoGame));
 
-        _cardId = int.Parse(videoGame.id);
-
-        _videoGameData = videoGame;
-        _titleTMP.text = videoGame.name;
-        _descriptionTMP.text = !string.IsNullOrEmpty(videoGame.description_short) ? videoGame.description_short : "No description available.";
-        _releasedTMP.text = videoGame.released;
-        _metacriticText.text = videoGame.metacritic.ToString();
-        yield return StartCoroutine(AssignBackground(videoGame));
+        _released.text = videoGame.released;
+        _description.text = videoGame.description_raw;
+        _platforms.text = string.Join(", ", videoGame.platforms.Select(platform => platform.platform.name).ToArray());
+        _genres.text = string.Join(", ", videoGame.genres.Select(genre => genre.name).ToArray());
     }
 
     public IEnumerator SetShortCardData(Game videoGame)
     {
-        if (videoGame == null)
-        {
-            Debug.Log("Se ha limpiado el videogame data");
-            Debug.LogError("Revisar porque se esta elimiando el videogame");
-            yield break;
-        }
+        if (videoGame == null) yield break;
+
+        yield return StartCoroutine(AssignBackground(videoGame));
 
         _cardId = int.Parse(videoGame.id);
         _videoGameData = videoGame;
 
         _titleTMP.text = videoGame.name;
-        _metacriticText.text = videoGame.metacritic.ToString();
-        StartCoroutine(AssignBackground(videoGame));
+        _metacritic.text = videoGame.metacritic.ToString();
     }
 
     private IEnumerator AssignBackground(Game videoGame)
@@ -70,7 +66,7 @@ public class UICard : MonoBehaviour
     // Metodo para asignar los detalles de la carta que se muestra en la pantalla utilizando un boton
     public void InitialAssingCardDetails()
     {
-        StartCoroutine(UICardDetails.Instance.SetAllCardData(_videoGameData));
+
     }
 
 }

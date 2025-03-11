@@ -16,8 +16,6 @@ public class Rotator : MonoBehaviour
     // Llama a este método para iniciar la rotación
     public void Rotate()
     {
-        Debug.Log(isRotating);
-
         if (!isRotating)
         {
             StartCoroutine(RotateCoroutine());

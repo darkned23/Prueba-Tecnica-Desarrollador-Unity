@@ -7,7 +7,7 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance { get; private set; }
     private float playTime = 0f;
     private float timeUntilNextSave = 0f;
-    private List<Game> videoGamesData;
+    public List<Game> videoGamesData;
 
     public event Action<Game> OnVideoGameAdded;
     public event Action<Game> OnVideoGameRemoved;
@@ -17,16 +17,12 @@ public class PlayerData : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Start()
-    {
         if (GameSaveManager.Instance.IsNewSlot)
         {
             SaveGame();
@@ -46,7 +42,7 @@ public class PlayerData : MonoBehaviour
 
     private void AutoSaveGame()
     {
-        timeUntilNextSave += Time.unscaledDeltaTime; // Se usa unscaledDeltaTime para que el autoguardado no se detenga.
+        timeUntilNextSave += Time.unscaledDeltaTime;
         if (timeUntilNextSave >= GameSaveManager.Instance.SaveDelay)
         {
             SaveGame();
@@ -58,7 +54,6 @@ public class PlayerData : MonoBehaviour
     public void SaveGame()
     {
         GameSaveManager.Instance.SaveGameData(this);
-        Debug.Log("Partida guardada.");
     }
 
     public void LoadGame()
@@ -70,20 +65,19 @@ public class PlayerData : MonoBehaviour
             return; // Evita errores por referencia nula
         }
 
-        playTime = gameData.playTime;
-        videoGamesData = gameData.videoGamesData;
+        playTime = gameData.PlayTime;
+        videoGamesData = gameData.VideoGamesData;
         transform.position = new Vector3(gameData.PlayerPosition[0], gameData.PlayerPosition[1], gameData.PlayerPosition[2]);
         transform.rotation = Quaternion.Euler(gameData.PlayerRotation[0], gameData.PlayerRotation[1], gameData.PlayerRotation[2]);
     }
 
     public void AddVideoGame(Game videoGameData)
     {
-        if (this.videoGamesData == null)
+        if (videoGamesData == null)
         {
-            this.videoGamesData = new List<Game>();
+            videoGamesData = new List<Game>();
         }
-        this.videoGamesData.Add(videoGameData);
-        Debug.Log("Videojuego añadido a videoGameData.");
+        videoGamesData.Add(videoGameData);
         SaveGame();
 
         OnVideoGameAdded?.Invoke(videoGameData);
@@ -91,9 +85,9 @@ public class PlayerData : MonoBehaviour
 
     public void RemoveVideoGame(Game videoGameData)
     {
-        if (this.videoGamesData == null) return;
+        if (videoGamesData == null) return;
 
-        this.videoGamesData.Remove(videoGameData);
+        videoGamesData.Remove(videoGameData);
         SaveGame();
 
         OnVideoGameRemoved?.Invoke(videoGameData);

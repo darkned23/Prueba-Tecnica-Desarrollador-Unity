@@ -67,7 +67,7 @@ public class Slot : MonoBehaviour
 
         _nameText.text = GameFormatter.LoadGame(_idSlot).NameGame;
         _numberText.text = $"{_idSlot + 1}.";
-        _progressText.text = FormatPlayTime(GameFormatter.LoadGame(_idSlot).playTime);
+        _progressText.text = FormatPlayTime(GameFormatter.LoadGame(_idSlot).PlayTime);
     }
 
     private void ClearData()

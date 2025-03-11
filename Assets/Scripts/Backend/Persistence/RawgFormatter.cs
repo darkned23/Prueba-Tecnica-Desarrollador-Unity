@@ -24,7 +24,6 @@ public static class RawgFormatter
                 string json = File.ReadAllText(gameDataPath);
                 JsonPagesGames wrapper = JsonUtility.FromJson<JsonPagesGames>(json);
 
-                Debug.Log("La ruta del archivo es: " + gameDataPath);
                 return wrapper?.pageGames;
             }
             catch (System.Exception e)
@@ -75,7 +74,6 @@ public static class RawgFormatter
 
         byte[] imageBytes = texture.EncodeToPNG();
         File.WriteAllBytes(GetImagePath(gameId), imageBytes);
-        Debug.Log($"Imagen guardada en {GetImagePath(gameId)}");
     }
 
     // Carga la imagen desde almacenamiento persistente
@@ -89,7 +87,6 @@ public static class RawgFormatter
             Texture2D texture = new Texture2D(2, 2);
             if (texture.LoadImage(imageBytes))
             {
-                Debug.Log($"Imagen cargada desde almacenamiento: {fullPath}");
                 return texture;
             }
         }

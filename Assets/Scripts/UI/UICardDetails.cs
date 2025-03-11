@@ -1,8 +1,8 @@
 using TMPro;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Linq;
 
 public class UICardDetails : MonoBehaviour
 {
@@ -30,18 +30,18 @@ public class UICardDetails : MonoBehaviour
         }
     }
 
-    public IEnumerator SetAllCardData(Game game)
+    public IEnumerator SetAllCardData(Game videoGame)
     {
-        if (game == null) yield break;
-        _videoGame = game;
+        if (videoGame == null) yield break;
+        _videoGame = videoGame;
 
-        _titleTMP.text = game.name;
-        yield return AssignBackground(game);
-        _released.text = game.released;
-        _description.text = game.description_raw;
-        _metacritic.text = game.metacritic.ToString();
-        _platforms.text = string.Join(", ", game.platforms.Select(platform => platform.platform.name).ToArray());
-        _genres.text = string.Join(", ", game.genres.Select(genre => genre.name).ToArray());
+        _titleTMP.text = videoGame.name;
+        _released.text = videoGame.released;
+        _description.text = videoGame.description_raw;
+        _metacritic.text = videoGame.metacritic.ToString();
+        _platforms.text = string.Join(", ", videoGame.platforms.Select(platform => platform.platform.name).ToArray());
+        _genres.text = string.Join(", ", videoGame.genres.Select(genre => genre.name).ToArray());
+        yield return StartCoroutine(AssignBackground(videoGame));
 
     }
 

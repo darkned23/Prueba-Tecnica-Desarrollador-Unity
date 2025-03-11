@@ -5,6 +5,8 @@ public class Card : MonoBehaviour
 {
     [SerializeField] private GameObject _cardModel;
     [SerializeField] private bool _isDetails;
+    [SerializeField] private float _finalScale; // Escala final uniforme en todos los ejes
+    [SerializeField] private float _growthFactor = 1.5f; // Factor de crecimiento para el efecto (por defecto 1.5)
     private Rigidbody _rigidbody;
     private UICard _uICard;
 
@@ -29,8 +31,8 @@ public class Card : MonoBehaviour
         _cardModel.SetActive(true);
         StartCoroutine(_uICard.SetAllCardData(ApiRawgManager.Instance.GetGame()));
 
-        Vector3 normalScale = Vector3.one;
-        Vector3 overshootScale = normalScale * 1.2f;
+        Vector3 finalScale = new Vector3(_finalScale, _finalScale, _finalScale);
+        Vector3 overshootScale = finalScale * _growthFactor;
 
         float durationToOvershoot = 0.12f;
         float timer = 0f;
@@ -46,7 +48,7 @@ public class Card : MonoBehaviour
         while (timer < durationToNormal)
         {
             timer += Time.deltaTime;
-            goTransform.localScale = Vector3.Lerp(overshootScale, normalScale, timer / durationToNormal);
+            goTransform.localScale = Vector3.Lerp(overshootScale, finalScale, timer / durationToNormal);
             yield return null;
         }
 

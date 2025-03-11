@@ -8,7 +8,7 @@ public class GameSaveManager : MonoBehaviour
 
     [SerializeField] private GameData _initialGameData = new();
     [SerializeField] private float saveDelay = 60f;
-
+    public GameData CurrentGamgeData;
     private int _selectSlot;
     private string _selectNameGame;
     private bool _isNewSlot;
@@ -36,15 +36,24 @@ public class GameSaveManager : MonoBehaviour
 
         GameFormatter.SaveGame(_initialGameData, _selectSlot);
         _isNewSlot = true;
-        Debug.Log("Partida creada.");
+
+        CurrentGamgeData = _initialGameData;
     }
 
     public void SaveGameData(PlayerData playerData)
     {
         _initialGameData.NameGame = _selectNameGame;
 
-        GameData gameData = new(_initialGameData.NameGame, playerData.GetPlayerPosition(), playerData.GetPlayerRotation(), playerData.PlayTime, playerData.GetVideoGamesData());
+        GameData gameData = new(
+            _initialGameData.NameGame,
+            playerData.GetPlayerPosition(),
+            playerData.GetPlayerRotation(),
+            playerData.PlayTime,
+            playerData.GetVideoGamesData());
+
         GameFormatter.SaveGame(gameData, _selectSlot);
+
+        CurrentGamgeData = gameData;
     }
 
     public GameData LoadGameData()
@@ -55,6 +64,8 @@ public class GameSaveManager : MonoBehaviour
             Debug.LogWarning("No se encontró partida guardada o se produjo un error.");
         }
         Debug.Log("Partida cargada.");
+
+        CurrentGamgeData = gameData;
         return gameData;
     }
 

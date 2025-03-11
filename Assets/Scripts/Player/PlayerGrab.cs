@@ -45,7 +45,7 @@ public class PlayerGrab : MonoBehaviour
     {
         if (Time.timeScale == 0) return;
 
-        if (grabInput)
+        if (grabInput && !isSaving)
         {
             if (grabbedObject == null)
                 TryGrabObject();
@@ -108,14 +108,6 @@ public class PlayerGrab : MonoBehaviour
         grabbedCollider = null;
     }
 
-#if UNITY_EDITOR
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * grabDistance);
-    }
-#endif
-
     private void SaveDataGame()
     {
         if (isSaving) return;
@@ -136,6 +128,6 @@ public class PlayerGrab : MonoBehaviour
         grabbedObject = null;
         grabbedCollider = null;
         originalScale = Vector3.zero;
-        isSaving = false; // Reinicia el flag
+        isSaving = false;
     }
 }
