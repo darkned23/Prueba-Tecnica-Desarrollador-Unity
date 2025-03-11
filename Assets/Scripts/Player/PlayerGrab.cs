@@ -23,7 +23,7 @@ public class PlayerGrab : MonoBehaviour
     private PlayerInputActions inputActions;
     private bool grabInput;
     private bool saveInput;
-    private bool isSaving; // Se agrega flag para evitar múltiples guardados
+    private bool isSaving;
 
     void Awake()
     {
@@ -76,31 +76,43 @@ public class PlayerGrab : MonoBehaviour
                 grabbedCollider = hit.collider;
                 originalScale = grabbedObject.transform.localScale;
 
-                // Desactivar componentes
+                DestroyObject destroyObject = grabbedObject.GetComponent<DestroyObject>();
+                if (destroyObject != null)
+                {
+                    destroyObject.cancelDestruction = true;
+                    Destroy(destroyObject);
+                }
                 grabbedCollider.enabled = false;
                 Destroy(rb);
 
-                // Configurar objeto agarrado
                 grabbedObject.transform.SetParent(Hand.transform);
                 grabbedObject.transform.localPosition = handPosition;
                 grabbedObject.transform.localRotation = Quaternion.Euler(handRotation);
                 grabbedObject.transform.localScale = Vector3.one * handScale;
+
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayGrabSound();
             }
         }
     }
 
     void ReleaseObject()
     {
+        DestroyObject oldDestroy = grabbedObject.GetComponent<DestroyObject>();
+        if (oldDestroy != null)
+        {
+            Destroy(oldDestroy);
+        }
+        grabbedObject.AddComponent<DestroyObject>();
+
         grabbedObject.transform.parent = null;
 
-        // Restaurar componentes y escala
         Rigidbody rb = grabbedObject.AddComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         grabbedCollider.enabled = true;
         grabbedObject.transform.localScale = originalScale;
 
-        // Aplicar fuerza de lanzamiento en la dirección de la cámara
         rb.AddForce(Camera.main.transform.forward * throwForce, ForceMode.Impulse);
 
         originalScale = Vector3.zero;
@@ -112,6 +124,9 @@ public class PlayerGrab : MonoBehaviour
     {
         if (isSaving) return;
         isSaving = true;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySaveSound();
 
         Game videoGameData = grabbedObject.GetComponent<UICard>().VideoGameData;
         playerData.AddVideoGame(videoGameData);

@@ -543,6 +543,37 @@ Transform:
   - {fileID: 1143006926}
   m_Father: {fileID: 1655653331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &972543877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972543878}
+  m_Layer: 0
+  m_Name: ---END-------------------------------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &972543878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972543877}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1011112319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,7 +2419,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Setting
+  m_text: Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
   m_sharedMaterial: {fileID: -8786360481241214805, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
@@ -2636,7 +2667,7 @@ GameObject:
   - component: {fileID: 8978319571107964379}
   - component: {fileID: 1422456804657281652}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2765,7 +2796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 739259.1}
+  m_AnchoredPosition: {x: 0, y: 18975.252}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!4 &2177010141182291835
@@ -2832,7 +2863,7 @@ Transform:
   m_Children:
   - {fileID: 1207301814248553910}
   - {fileID: 8959802086793981310}
-  m_Father: {fileID: 8612941440621978641}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2483684006708589444
 MonoBehaviour:
@@ -3878,8 +3909,8 @@ MonoBehaviour:
   amount: 1
   spawnOnStart: 1
   spawnInCircle: 1
-  spawnInterval: 5
-  spawnRadius: 10
+  spawnInterval: 8
+  spawnRadius: 15
   spawnRotation: {x: 180, y: 180, z: 180}
   randomRotation: 1
 --- !u!4 &4855775128137792787
@@ -4239,7 +4270,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2547542510278653080}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1392821294404746109}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5555450698058769415
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,7 +4753,7 @@ Transform:
   m_GameObject: {fileID: 685964432031335487}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: -3.2, y: 10, z: -0.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5355,8 +5398,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2480848023098953383}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!222 &8726437969820586457
@@ -5502,7 +5544,7 @@ GameObject:
   - component: {fileID: 2547542510278653080}
   - component: {fileID: 5490182642518552248}
   m_Layer: 5
-  m_Name: Button_Setting
+  m_Name: Button_Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5512,10 +5554,12 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 8612941440621978641}
   - {fileID: 5762128984299466264}
   - {fileID: 6524062895549922579}
   - {fileID: 1655653331}
   - {fileID: 2516443692649189470}
   - {fileID: 7422202831260108419}
+  - {fileID: 8612941440621978641}
+  - {fileID: 2480848023098953383}
   - {fileID: 5244135134107718119}
+  - {fileID: 972543878}

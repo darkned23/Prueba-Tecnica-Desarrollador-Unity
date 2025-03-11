@@ -22,12 +22,19 @@ public class UIManager : MonoBehaviour
         inputActions.UI.Inventory.performed += ctx => ToggleInventory();
     }
 
+    void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     void OnEnable() => inputActions.Enable();
     void OnDisable() => inputActions.Disable();
 
     public void TogglePause()
     {
-        // Si el inventario está abierto, se cierra y se sale del método
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayGrabSound();
+
         if (_isInventoryOpen)
         {
             _isInventoryOpen = false;
@@ -40,7 +47,6 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // Si el inventario está cerrado, se alterna el estado de pausa
         _isPaused = !_isPaused;
         _canvasPauseMenu.enabled = _isPaused;
 
@@ -51,6 +57,9 @@ public class UIManager : MonoBehaviour
 
     public void ToggleInventory()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayGrabSound();
+
         _isInventoryOpen = !_isInventoryOpen;
         if (_isInventoryOpen)
             _isPaused = false;
