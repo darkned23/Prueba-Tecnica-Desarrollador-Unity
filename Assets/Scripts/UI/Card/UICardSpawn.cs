@@ -56,6 +56,5 @@ public class UICardSpawn : UICard
             colorIndex = metacriticColors.Length - 1;
 
         _meshRenderer.material.color = metacriticColors[colorIndex];
-        Debug.Log("Se ha asignado el color: " + metacriticColors[colorIndex]);
     }
 }

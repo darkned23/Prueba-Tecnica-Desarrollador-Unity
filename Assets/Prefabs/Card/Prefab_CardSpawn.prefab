@@ -325,16 +325,17 @@ MonoBehaviour:
   _bodyCardImage: {fileID: 0}
   OnlyUI: 0
   metacriticColors:
-  - {r: 0.29411763, g: 0.21176466, b: 0.22896108, a: 1}
-  - {r: 0.36201677, g: 0.2430135, b: 0.40566036, a: 1}
-  - {r: 0.22405615, g: 0.6509434, b: 0.14431289, a: 1}
-  - {r: 0, g: 1, b: 0.8876231, a: 1}
-  metacriticThresholds: 55000000590000005c0000005e000000
+  - {r: 0.16353682, g: 0.19133905, b: 0.19811317, a: 1}
+  - {r: 0.20198469, g: 0.24007943, b: 0.4811321, a: 1}
+  - {r: 0.49056602, g: 0.0023139962, b: 0.06474868, a: 1}
+  - {r: 0.52951944, g: 0.20572263, b: 0.6509434, a: 1}
+  metacriticThresholds: 5b0000005e00000060000000
   _released: {fileID: 2223705367653114657}
   _description: {fileID: 4603109972780116274}
   _platforms: {fileID: 3341311798214206744}
   _genres: {fileID: 1726879906131091093}
   _meshRenderer: {fileID: 3727732453671022395}
+  colorTMPHightScore: {r: 0.23529412, g: 0.21568628, b: 0.21568628, a: 1}
 --- !u!65 &1977156242880267752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -697,7 +698,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dbbcf1b6abeb5a4291619efcbd9a3aa, type: 2}
+  - {fileID: 2100000, guid: 8eda3c0483afd1949a3ad2853b67c6c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

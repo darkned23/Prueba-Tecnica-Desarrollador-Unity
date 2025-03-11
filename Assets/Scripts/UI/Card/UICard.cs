@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using NUnit.Framework;
 
 public class UICard : MonoBehaviour
 {
@@ -21,7 +20,13 @@ public class UICard : MonoBehaviour
 
     [Header("Color Settings by Metacritic")]
     public Color[] metacriticColors;
-    public int[] metacriticThresholds;
+    public int[] metacriticThresholds = new int[]
+    {
+        91,     // Puntaje < 91: se utiliza el color en metacriticColors[0]
+        94,     // 91 <= Puntaje <= 93: se utiliza el color en metacriticColors[1]
+        96      // 94 <= Puntaje <= 95: se utiliza el color en metacriticColors[2]
+                // Puntaje >= 96: se utiliza el color en metacriticColors[3]
+    };
 
     public IEnumerator SetShortCardData(Game videoGame)
     {
@@ -84,6 +89,5 @@ public class UICard : MonoBehaviour
             colorIndex = metacriticColors.Length - 1;
 
         _bodyCardImage.color = metacriticColors[colorIndex];
-        Debug.Log("Se ha asignado el color: " + metacriticColors[colorIndex]);
     }
 }

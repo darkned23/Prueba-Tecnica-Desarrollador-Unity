@@ -351,11 +351,11 @@ MonoBehaviour:
   _bodyCardImage: {fileID: 7018397331612756414}
   OnlyUI: 1
   metacriticColors:
-  - {r: 0.29411763, g: 0.21176466, b: 0.22896108, a: 1}
-  - {r: 0.36201677, g: 0.2430135, b: 0.40566036, a: 1}
-  - {r: 0.22405615, g: 0.6509434, b: 0.14431289, a: 1}
-  - {r: 0, g: 1, b: 0.8876231, a: 1}
-  metacriticThresholds: 55000000590000005c0000005e000000
+  - {r: 0.16353682, g: 0.19133905, b: 0.19811317, a: 1}
+  - {r: 0.20198469, g: 0.24007943, b: 0.4811321, a: 1}
+  - {r: 0.49056602, g: 0.0023139962, b: 0.06474868, a: 1}
+  - {r: 0.52951944, g: 0.20572263, b: 0.6509434, a: 1}
+  metacriticThresholds: 5b0000005e00000060000000
 --- !u!1 &5764001045333545618
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,8 +694,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4f90b440147d07c45b221ca084b4aad7, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

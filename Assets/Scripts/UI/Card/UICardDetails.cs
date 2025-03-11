@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro; // ...nuevo using...
 
 public class UICardDetails : UICardSpawn
 {
@@ -29,7 +30,6 @@ public class UICardDetails : UICardSpawn
     }
 
     #region Animations
-    // Nuevo método para animar y mostrar detalles en UICardDetails
     public void AnimateAndShowDetails(Game videoGame)
     {
         StartCoroutine(AnimateAndShowDetailsCoroutine(videoGame));
@@ -37,7 +37,6 @@ public class UICardDetails : UICardSpawn
 
     private IEnumerator AnimateAndShowDetailsCoroutine(Game videoGame)
     {
-        // Si la escala actual es cero, solo se hace la expansión
         if (transform.localScale != Vector3.zero)
         {
             yield return StartCoroutine(ReversePopEffect());

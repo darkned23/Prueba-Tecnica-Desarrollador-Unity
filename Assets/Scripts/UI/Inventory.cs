@@ -13,8 +13,6 @@ public class Invetory : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Inventario iniciado");
-
         if (PlayerData.Instance != null)
         {
             PlayerData.Instance.OnVideoGameAdded += HandleVideoGameAdded;

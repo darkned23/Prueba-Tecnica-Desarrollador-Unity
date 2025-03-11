@@ -1131,7 +1131,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dbbcf1b6abeb5a4291619efcbd9a3aa, type: 2}
+  - {fileID: 2100000, guid: 8eda3c0483afd1949a3ad2853b67c6c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1566,17 +1566,20 @@ MonoBehaviour:
   _backgroundImage: {fileID: 8007444852550861551}
   _titleTMP: {fileID: 4027719142530655169}
   _metacritic: {fileID: 8365534824770877517}
+  _bodyCardImage: {fileID: 0}
+  OnlyUI: 0
+  metacriticColors:
+  - {r: 0.16353682, g: 0.19133905, b: 0.19811317, a: 1}
+  - {r: 0.20198469, g: 0.24007943, b: 0.4811321, a: 1}
+  - {r: 0.49056602, g: 0.0023139962, b: 0.06474868, a: 1}
+  - {r: 0.52951944, g: 0.20572263, b: 0.6509434, a: 1}
+  metacriticThresholds: 5b0000005e00000060000000
   _released: {fileID: 3464436001795691602}
   _description: {fileID: 1236693647640059457}
   _platforms: {fileID: 42413732418916971}
   _genres: {fileID: 4125027123225733606}
   _meshRenderer: {fileID: 2122187848370952264}
-  metacriticColors:
-  - {r: 0.29411763, g: 0.21176466, b: 0.22896108, a: 1}
-  - {r: 0.36201677, g: 0.2430135, b: 0.40566036, a: 1}
-  - {r: 0.22405615, g: 0.6509434, b: 0.14431289, a: 1}
-  - {r: 0, g: 1, b: 0.8876231, a: 1}
-  metacriticThresholds: 55000000590000005c0000005e000000
+  colorTMPHightScore: {r: 0.23529412, g: 0.21568628, b: 0.21568628, a: 1}
   reverseDuration: 0.1
   elasticDuration: 0.5
   rotator: {fileID: 7503778063700808484}
@@ -1848,7 +1851,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 34146698157986722}
   m_HandleRect: {fileID: 5860003839979727466}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

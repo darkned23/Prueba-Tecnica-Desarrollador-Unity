@@ -78,7 +78,5 @@ public class SpawnerRawg : MonoBehaviour
 
         randomPosition.y = position.y;
         GameObject instance = Instantiate(prefab, randomPosition, rotation, container.transform);
-
-        Debug.Log("Se ha Spawneado una carta de videojuego");
     }
 }

@@ -63,7 +63,6 @@ public class GameSaveManager : MonoBehaviour
         {
             Debug.LogWarning("No se encontró partida guardada o se produjo un error.");
         }
-        Debug.Log("Partida cargada.");
 
         CurrentGamgeData = gameData;
         return gameData;
