@@ -8,7 +8,8 @@ public class Slot : MonoBehaviour
     [SerializeField] private GameObject _buttonDelete;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _numberText;
-    [SerializeField] private TMP_Text _progressText;
+    [SerializeField] private TMP_Text _textPlayTime;
+    [SerializeField] private TMP_Text _textLastPlayedDate;
 
     [Header("Other Config")]
     [SerializeField] private GameObject _panelInputName;
@@ -65,9 +66,10 @@ public class Slot : MonoBehaviour
     {
         _buttonDelete.SetActive(true);
 
-        _nameText.text = GameFormatter.LoadGame(_idSlot).NameGame;
         _numberText.text = $"{_idSlot + 1}.";
-        _progressText.text = FormatPlayTime(GameFormatter.LoadGame(_idSlot).PlayTime);
+        _nameText.text = GameFormatter.LoadGame(_idSlot).NameGame;
+        _textPlayTime.text = FormatPlayTime(GameFormatter.LoadGame(_idSlot).PlayTime);
+        _textLastPlayedDate.text = GameFormatter.LoadGame(_idSlot).LastPlayedDate;
     }
 
     private void ClearData()
@@ -75,8 +77,9 @@ public class Slot : MonoBehaviour
         _buttonDelete.SetActive(false);
 
         _nameText.text = "New Game";
-        _numberText.text = $"";
-        _progressText.text = "";
+        _numberText.text = "";
+        _textPlayTime.text = "";
+        _textLastPlayedDate.text = "";
     }
 
     private void OnEnable()

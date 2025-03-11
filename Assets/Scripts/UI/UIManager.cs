@@ -7,8 +7,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] private Canvas _canvasInventory;
-    [SerializeField] private Canvas _canvasCardDetails;
-    [SerializeField] private MeshRenderer _cardDetailsModel;
+
+    [SerializeField] private Camera _cameraCardDetails;
 
     private PlayerInputActions inputActions;
     private bool _isPaused = false;
@@ -32,8 +32,7 @@ public class UIManager : MonoBehaviour
         {
             _isInventoryOpen = false;
             _canvasInventory.enabled = false;
-            _canvasCardDetails.enabled = false;
-            _cardDetailsModel.enabled = false;
+            _cameraCardDetails.enabled = false;
 
             Time.timeScale = (_isPaused || _isInventoryOpen) ? 0f : 1f;
             Cursor.lockState = (_isPaused || _isInventoryOpen) ? CursorLockMode.None : CursorLockMode.Locked;
@@ -57,8 +56,7 @@ public class UIManager : MonoBehaviour
             _isPaused = false;
 
         _canvasInventory.enabled = _isInventoryOpen;
-        _canvasCardDetails.enabled = _isInventoryOpen;
-        _cardDetailsModel.enabled = _isInventoryOpen;
+        _cameraCardDetails.enabled = _isInventoryOpen;
 
         _canvasPauseMenu.enabled = _isPaused;
 

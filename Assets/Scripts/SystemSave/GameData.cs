@@ -25,7 +25,7 @@ public class GameData
         PlayerPosition = playerPosition;
         PlayerRotation = playerRotation;
         PlayTime = playTime;
-        LastPlayedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+        LastPlayedDate = DateTime.Now.ToString("dd/MM/yyyy");
         VideoGamesData = videoGamesData;
     }
 

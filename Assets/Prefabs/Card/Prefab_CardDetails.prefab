@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
   m_sharedMaterial: {fileID: -8786360481241214805, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
@@ -249,7 +249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.07542}
+  m_AnchoredPosition: {x: 0, y: -0.07541999}
   m_SizeDelta: {x: 120, y: 85}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2839937408143233477
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 11-03-2024
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
   m_sharedMaterial: {fileID: 2458493818574558336, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
@@ -1131,7 +1131,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 574d3176239080244961b091ce871980, type: 2}
+  - {fileID: 2100000, guid: 9dbbcf1b6abeb5a4291619efcbd9a3aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}
   rotationAmount: -180
-  duration: 0.5
+  duration: 0.3
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1302,7 +1302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.6600003}
+  m_AnchoredPosition: {x: 0, y: -1.6599998}
   m_SizeDelta: {x: 0, y: 3.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &364883396254000071
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SUPER MARIO ODISE  DELUX CAR PRO EVOLUTION SOCCER 2024
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
   m_sharedMaterial: {fileID: -8786360481241214805, guid: 20a4ccf36e1cd254faa365667b7cdae3, type: 2}
@@ -1543,8 +1543,8 @@ Transform:
   m_GameObject: {fileID: 4773023038792500290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5, y: -1, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalPosition: {x: -5, y: -1, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7296113088445816562}
@@ -1565,11 +1565,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backgroundImage: {fileID: 8007444852550861551}
   _titleTMP: {fileID: 4027719142530655169}
+  _metacritic: {fileID: 8365534824770877517}
   _released: {fileID: 3464436001795691602}
   _description: {fileID: 1236693647640059457}
-  _metacritic: {fileID: 8365534824770877517}
   _platforms: {fileID: 42413732418916971}
   _genres: {fileID: 4125027123225733606}
+  _meshRenderer: {fileID: 2122187848370952264}
+  metacriticColors:
+  - {r: 0.29411763, g: 0.21176466, b: 0.22896108, a: 1}
+  - {r: 0.36201677, g: 0.2430135, b: 0.40566036, a: 1}
+  - {r: 0.22405615, g: 0.6509434, b: 0.14431289, a: 1}
+  - {r: 0, g: 1, b: 0.8876231, a: 1}
+  metacriticThresholds: 55000000590000005c0000005e000000
+  reverseDuration: 0.1
+  elasticDuration: 0.5
+  rotator: {fileID: 7503778063700808484}
 --- !u!1 &4781397617093851380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,7 +1693,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8589909688165333649}
   - component: {fileID: 2168275639973290857}
-  - component: {fileID: 269884417492497382}
   m_Layer: 5
   m_Name: Container_Released
   m_TagString: Untagged
@@ -1719,36 +1728,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4866222024909856903}
   m_CullTransparentMesh: 1
---- !u!114 &269884417492497382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4866222024909856903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4886121143082413266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,7 +1848,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 34146698157986722}
   m_HandleRect: {fileID: 5860003839979727466}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2229,7 +2208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Mario Tennis, known in Japan as Mario Tennis 64 (\u30DE\u30EA\u30AA\u30C6\u30CB\u30B964, "
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
   m_sharedMaterial: {fileID: 2458493818574558336, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
@@ -2335,7 +2314,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.03}
+  m_AnchoredPosition: {x: 0, y: 0.030000001}
   m_SizeDelta: {x: 200, y: 28.45724}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4411108780384875824
@@ -2403,7 +2382,7 @@ GameObject:
   - component: {fileID: 4830554142782737003}
   - component: {fileID: 7499395799720532211}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Container_TittleDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2426,7 +2405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.04}
+  m_AnchoredPosition: {x: 0, y: -0.03999999}
   m_SizeDelta: {x: 120, y: 20}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4830554142782737003
@@ -2650,7 +2629,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Mario Tennis, known in Japan as Mario Tennis 64 (\u30DE\u30EA\u30AA\u30C6\u30CB\u30B964, "
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
   m_sharedMaterial: {fileID: 2458493818574558336, guid: 52093b75cc3972346a8eaf3881464409, type: 2}
@@ -2787,7 +2766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c34e704e41547204aa39da57e401ffa3, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2981,7 +2960,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000027656555}
   m_SizeDelta: {x: 306.3705, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7053621623102959520
@@ -3132,7 +3111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.07}
+  m_AnchoredPosition: {x: 0, y: -0.06999999}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1946940631398872615
@@ -3339,7 +3318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.2}
+  m_AnchoredPosition: {x: 0, y: 0.19999999}
   m_SizeDelta: {x: 200, y: 28.45724}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3383960482670971990

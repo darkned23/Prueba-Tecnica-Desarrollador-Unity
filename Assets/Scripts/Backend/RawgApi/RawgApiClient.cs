@@ -99,7 +99,7 @@ public class RawgApiClient : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
-            Debug.LogError(request.error);
+            Debug.LogError("HTTP error " + request.responseCode + ": " + request.error);
         }
         else
         {
@@ -115,7 +115,7 @@ public class RawgApiClient : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
-            Debug.LogError("Error al descargar la imagen: " + request.error);
+            Debug.LogError("HTTP error " + request.responseCode + ": Error al descargar la imagen: " + request.error);
         }
         else
         {
