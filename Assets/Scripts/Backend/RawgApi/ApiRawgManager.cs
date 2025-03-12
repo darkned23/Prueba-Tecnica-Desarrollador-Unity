@@ -69,14 +69,11 @@ public class ApiRawgManager : MonoBehaviour
     // Método para generar todos los juegos de la API bajo los parametros dados.
     private IEnumerator GenerateAllGames()
     {
-        // Corregir el índice: usar de 0 a maxPage - 1
         for (int i = 0; i < _maxPage; i++)
         {
-            // Se solicita la página (asumiendo que la API utiliza 1-based para el parámetro)
             _rawgApiClient.GetResultsResponse(i + 1);
             yield return new WaitUntil(() => _rawgApiClient.GetResponse() != null);
 
-            // Parsear y asignar el resultado al array
             pagesGames[i] = _rawgparser.ParseResults(_rawgApiClient.GetResponse());
             yield return new WaitUntil(() => pagesGames[i] != null);
         }

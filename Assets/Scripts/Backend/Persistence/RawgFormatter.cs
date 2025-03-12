@@ -3,18 +3,36 @@ using UnityEngine;
 
 public static class RawgFormatter
 {
-    private static string gameDataPath = Application.persistentDataPath + "/Files_Rawg/Save_Data/games.json";
-    private static string imageFolderPath = Application.persistentDataPath + "/Files_Rawg/Images/";
+    private static string baseFolderPath = Path.Combine(Application.persistentDataPath, "Files_Rawg");
+    private static string saveDataFolderPath = Path.Combine(baseFolderPath, "Save_Data");
+    private static string imagesFolderPath = Path.Combine(baseFolderPath, "Images");
+    private static string gameDataPath = Path.Combine(saveDataFolderPath, "games.json");
+
+    static RawgFormatter()
+    {
+        EnsureDirectoriesExist();
+    }
+
+    private static void EnsureDirectoriesExist()
+    {
+        if (!Directory.Exists(saveDataFolderPath))
+        {
+            Directory.CreateDirectory(saveDataFolderPath);
+        }
+
+        if (!Directory.Exists(imagesFolderPath))
+        {
+            Directory.CreateDirectory(imagesFolderPath);
+        }
+    }
 
     #region Game Management
-    // Guardar juegos en JSON
     public static void SaveGames(_pageGame[] data)
     {
         string json = JsonUtility.ToJson(new JsonPagesGames(data), true);
         File.WriteAllText(gameDataPath, json);
     }
 
-    // Cargar juegos desde JSON
     public static _pageGame[] LoadGames()
     {
         if (File.Exists(gameDataPath))
@@ -23,7 +41,6 @@ public static class RawgFormatter
             {
                 string json = File.ReadAllText(gameDataPath);
                 JsonPagesGames wrapper = JsonUtility.FromJson<JsonPagesGames>(json);
-
                 return wrapper?.pageGames;
             }
             catch (System.Exception e)
@@ -35,12 +52,10 @@ public static class RawgFormatter
         }
         else
         {
-            Debug.LogWarning("No se encontró el archivo en: " + gameDataPath);
             return null;
         }
     }
 
-    // Eliminar archivo JSON de juegos
     public static void DeleteGames()
     {
         if (File.Exists(gameDataPath))
@@ -51,32 +66,23 @@ public static class RawgFormatter
     #endregion
 
     #region Image Management
-    // Verifica si la imagen ya está almacenada
     public static bool IsImageStored(string gameId)
     {
         string fullPath = GetImagePath(gameId);
         return File.Exists(fullPath);
     }
 
-    // Retorna la ruta de la imagen basada en el ID del juego
     public static string GetImagePath(string gameId)
     {
-        return Path.Combine(imageFolderPath, gameId + ".png");
+        return Path.Combine(imagesFolderPath, gameId + ".png");
     }
 
-    // Guarda la imagen en almacenamiento persistente
     public static void SaveImage(string gameId, Texture2D texture)
     {
-        if (!Directory.Exists(imageFolderPath))
-        {
-            Directory.CreateDirectory(imageFolderPath);
-        }
-
         byte[] imageBytes = texture.EncodeToPNG();
         File.WriteAllBytes(GetImagePath(gameId), imageBytes);
     }
 
-    // Carga la imagen desde almacenamiento persistente
     public static Texture2D LoadImage(string gameId)
     {
         string fullPath = GetImagePath(gameId);
